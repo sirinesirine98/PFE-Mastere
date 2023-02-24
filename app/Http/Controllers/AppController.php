@@ -13,4 +13,6 @@ class AppController extends Controller
          //return view('welcome', ['todos' => $todos]);
         return view('welcome');
     }
+
+    
 }
