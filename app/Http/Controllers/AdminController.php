@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Doctor;
+use App\Models\Appointment;
 
 class AdminController extends Controller
 {
@@ -26,7 +27,8 @@ class AdminController extends Controller
     }
 
     $doctor->name = $request->name;
-    $doctor->phone = $request->phone;
+    $doctor->phone = $request->number;
+    $doctor->email = $request->email;
     $doctor->room = $request->room;
     $doctor->speciality = $request->speciality;
     $doctor->save();
@@ -34,4 +36,74 @@ class AdminController extends Controller
     return redirect()->back()->with('message','Docteur ajouter avec succées !');
 }
 
+     public function liste_rdv()
+        {
+            $data = appointment::all();
+
+            return view('admin.showappointment' , compact('data'));
+        }
+
+            public function approved($id)
+            {
+                $data=appointment::find($id);
+                $data->status='approved';
+                $data->save();
+                return redirect()->back()->with('message','Rendez-vous valider avec succées !');
+
+            }
+
+            public function canceled($id)
+            {
+                $data=appointment::find($id);
+                $data->status='canceled';
+                $data->save();
+                return redirect()->back()->with('message','Rendez-vous valider avec succées !');
+
+
+            }
+
+            public function liste_docteur()
+            {
+                $data = doctor::all();
+                return view ('admin.showdoctor', compact('data'));
+            }
+
+            public function supprimer_docteur($id)
+            {
+                $data=doctor::find($id);
+                $data->delete();
+
+
+                return redirect()->back();
+
+            }
+
+            public function modifier_docteur($id)
+            {
+                $data = doctor::find($id);
+               
+                return  view('admin.updatedoctor' , compact('data'));
+            }
+
+            public function editdoctor(Request $request , $id)
+            {
+                $doctor = doctor::find($id);
+                $doctor-> name= $request -> name ;
+                $doctor-> phone= $request -> phone ;
+                $doctor-> speciality= $request -> speciality ;
+                $doctor-> room= $request -> room ;
+
+                $picture = $request->file;
+
+                if ($picture) 
+                {   
+                 $imagename = time().'.'.$picture->getClientOriginalExtension();
+                $request-> file -> move('doctorimage' , $imagename) ;
+                 $doctor-> picture= $imagename;
+                }
+                 $doctor->save();
+                 
+                 return redirect()->back()->with('message','Docteur est modifier avec succées !');;
+
+            }
 }

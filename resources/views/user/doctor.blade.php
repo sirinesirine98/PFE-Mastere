@@ -1,6 +1,6 @@
 <div class="page-section bg-light">
     <div class="container">
-      <h1 class="text-center wow fadeInUp">Our Doctors</h1>
+      <h1 class="text-center wow fadeInUp">Nos Docteurs</h1>
       <div class="row mt-5">          
             <div class="col-md-6 col-lg-4 py-3 wow zoomIn">
               <div class="card-doctor">

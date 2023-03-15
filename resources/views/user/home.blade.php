@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,10 +83,15 @@
               <a class="nav-link" href="contact.html">Contact</a>
             </li>
             @if(Route::has('login'))
-            @auth
-            <x-app-layout>
 
-    </x-app-layout>
+            @auth
+
+              <li class="nav-item">
+              <a class="nav-link" style="background-color:greenyellow ; color:white;" href="{{ url('myappointment') }}">Mes RDV</a>
+            </li>
+
+            <x-app-layout>
+            </x-app-layout>
             @else
             <li class="nav-item">
               <a class="btn btn-primary ml-lg-3" href="{{route('login')}}">Login </a>
@@ -103,6 +108,14 @@
       </div> <!-- .container -->
     </nav>
   </header>
+
+   @if(session()->has('message'))
+        <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert"></button>
+            {{session()->get('message')}}
+        </div>
+
+        @endif
 
   <div class="page-hero bg-image overlay-dark" style="background-image: url(../assets/img/bg_image_1.jpg);">
     <div class="hero-section">
@@ -165,11 +178,11 @@
     </div> <!-- .bg-light -->
   </div> <!-- .bg-light -->
 
-  @include('user.doctor')
+ @include('user.doctor')
+  
   @include('user.latest')
 
 @include('user.appointment')
- 
 
   <footer class="page-footer">
     <div class="container">

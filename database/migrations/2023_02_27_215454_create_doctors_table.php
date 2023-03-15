@@ -17,9 +17,10 @@ class CreateDoctorsTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('phone')->nullable();
+            $table->string('email')->nullable();
             $table->string('room')->nullable();
             $table->string('speciality')->nullable();
-            $table->string('picture')->nullable();
+            $table->string('picture');
            
             $table->timestamps();
         });
