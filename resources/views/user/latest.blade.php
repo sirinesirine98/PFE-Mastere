@@ -1,19 +1,19 @@
 <div class="page-section bg-light">
     <div class="container">
-      <h1 class="text-center wow fadeInUp">Latest News</h1>
+      <h1 class="text-center wow fadeInUp">Nos nouvelles</h1>
       <div class="row mt-5">
         <div class="col-lg-4 py-2 wow zoomIn">
           <div class="card-blog">
             <div class="header">
               <div class="post-category">
-                <a href="#">Covid19</a>
+                <a href="#">Suivis</a>
               </div>
               <a href="blog-details.html" class="post-thumb">
                 <img src="../assets/img/blog/blog_1.jpg" alt="">
               </a>
             </div>
             <div class="body">
-              <h5 class="post-title"><a href="blog-details.html">List of Countries without Coronavirus case</a></h5>
+              <h5 class="post-title"><a href="blog-details.html">Profitez d’un suivi régulier et facile</a></h5>
               <div class="site-info">
                 <div class="avatar mr-2">
                   <div class="avatar-img">
@@ -30,14 +30,14 @@
           <div class="card-blog">
             <div class="header">
               <div class="post-category">
-                <a href="#">Covid19</a>
+                <a href="#">Prescription</a>
               </div>
               <a href="blog-details.html" class="post-thumb">
                 <img src="../assets/img/blog/blog_2.jpg" alt="">
               </a>
             </div>
             <div class="body">
-              <h5 class="post-title"><a href="blog-details.html">Recovery Room: News beyond the pandemic</a></h5>
+              <h5 class="post-title"><a href="blog-details.html">Gérez vos rendez-vous et documents de santé</a></h5>
               <div class="site-info">
                 <div class="avatar mr-2">
                   <div class="avatar-img">
@@ -54,14 +54,14 @@
           <div class="card-blog">
             <div class="header">
               <div class="post-category">
-                <a href="#">Covid19</a>
+                <a href="#">Analyses</a>
               </div>
               <a href="blog-details.html" class="post-thumb">
                 <img src="../assets/img/blog/blog_3.jpg" alt="">
               </a>
             </div>
             <div class="body">
-              <h5 class="post-title"><a href="blog-details.html">What is the impact of eating too much sugar?</a></h5>
+              <h5 class="post-title"><a href="blog-details.html">Accédez rapidement aux disponibilités de tous vos praticiens</a></h5>
               <div class="site-info">
                 <div class="avatar mr-2">
                   <div class="avatar-img">
@@ -76,7 +76,7 @@
         </div>
 
         <div class="col-12 text-center mt-4 wow zoomIn">
-          <a href="blog.html" class="btn btn-primary">Read More</a>
+          <a href="blog.html" class="btn btn-primary">Plus ..</a>
         </div>
 
       </div>

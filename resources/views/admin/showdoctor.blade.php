@@ -11,20 +11,21 @@
      @include('admin.navbar')
         <!-- partial -->
 
-          <div align="center" style="padding-top:100px;">
+
+          <div align="center" style="padding:100px;">
                     <table>
                         <tr style="background-color:black;">
-                            <th style="padding:10px; color:white">Nom du docteur</th>
-                            <th style="padding:10px; color:white">Email</th>
-                            <th style="padding:10px; color:white">Téléphone</th>
-                            <th style="padding:10px; color:white">Sallon</th>
-                            <th style="padding:10px; color:white">Spécialité</th>
-                            <th style="padding:10px; color:white">Image</th>
-                            <th style="padding:10px; color:white">Supprimer</th>
-                            <th style="padding:10px; color:white">Modifier</th>
+                            <th style="padding:10px;text-align:center; color:white">Nom du docteur</th>
+                            <th style="padding:10px;text-align:center; color:white">Email</th>
+                            <th style="padding:10px;text-align:center; color:white">Téléphone</th>
+                            <th style="padding:10px;text-align:center; color:white">Sallon</th>
+                            <th style="padding:10px;text-align:center; color:white">Spécialité</th>
+                            <th style="padding:10px;text-align:center; color:white">Image</th>
+                            <th style="padding:10px;text-align:center; color:white">Supprimer</th>
+                            <th style="padding:10px;text-align:center; color:white">Modifier</th>
                         </tr>
                         @foreach($data as $doctor)
-                        <tr>
+                        <tr align="center" style="background-color:#F5F5F5; color:black">
                             <td>{{ $doctor -> name }}</td>
                             <td>{{ $doctor -> email}}</td>
                             <td>{{ $doctor -> phone}}</td>
@@ -37,7 +38,7 @@
                         @endforeach
                     </table>
           </div>
-        </div>
+     
 
     <!-- container-scroller -->
     <!-- plugins:js -->

@@ -47,12 +47,12 @@
             <label>Spécialité </label>
             <select style="color:black" name="speciality" required="" id="speciality">
                 <option>--Sélectionner--</option>
-                <option value="dermatologie">Dermatologie</option>
-                <option value="psychiatrie">Psychiatrie</option>
+                <option value="Dermatologie">Dermatologie</option>
+                <option value="Psychiatrie">Psychiatrie</option>
                 <option value="Radiologie">Radiologie</option>
                 <option value="Gynécologie">Gynécologie</option>
-                <option value="biologie">Biologie Médicale</option>
-                <option value="cardiovasculaire">Médecine cardiovasculaire</option>
+                <option value="Biologie">Biologie Médicale</option>
+                <option value="Cardiovasculaire">Médecine cardiovasculaire</option>
                 <option value="Médecine d’urgence">Médecine d’urgence</option>
             </select>
             </div>

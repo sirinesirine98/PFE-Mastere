@@ -132,13 +132,7 @@ a.bg-light:hover, a.bg-light:focus {
   background-color: #E1EBE8 !important;
 }
 
-.bg-dark {
-  background-color: #343531 !important;
-}
 
-a.bg-dark:hover, a.bg-dark:focus {
-  background-color: #1e1f1c !important;
-}
 
 .text-primary {
   color: #00D9A5 !important;

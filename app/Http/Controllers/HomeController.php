@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth ;
 use App\Models\User;
 use App\Models\Doctor;
 use App\Models\Appointment;
+use App\Models\Documents;
 
 
 class HomeController extends Controller
@@ -19,11 +20,16 @@ class HomeController extends Controller
                 $doctor = doctor::all();
                 return view('user.home' , compact('doctor'));
             }
-            else {
+            else  {
                 return view('admin.home');
 
             }
+           
         }
+         if (Auth::user()-> usertype=='1') {
+                return view('medecin.home');
+
+            }
         else {
             return redirect()->back();
         }
@@ -73,6 +79,8 @@ class HomeController extends Controller
        }
     }
 
+       
+
          public function cancel_appointment($id)
          {
           $data=appointment::find($id);
@@ -82,6 +90,30 @@ class HomeController extends Controller
 
          }
     
+      /*    public function mes_documents()
+        {
+            $data = new mes_documents;
+            $data->name=$request->name;
+            $data->date=$request->date;
+            $data->status=$request->status;
+            $data->diagnostic=$request->diagnostic;
+            $data->resultat=$request->resultat;
+         if (Auth::id())
+        { 
+        $data->user_id=Auth::user()->id;
+        $data->doctor_id=Auth::doctor()->id;
+        }
+                    $data->save();
+     return redirect()->back()->with('message','Rendez-vous ajouter avec succées !');
+
+        }*/
+
+         public function mydocs()
+         {
+            return view ('user.mydocs' );
+
+         }
+         
 
     }
 

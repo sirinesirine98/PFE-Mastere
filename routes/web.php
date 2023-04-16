@@ -55,7 +55,6 @@ Route::get('/modifier_docteur/{id}', [AdminController::class , 'modifier_docteur
 Route::post('/editdoctor/{id}', [AdminController::class , 'editdoctor']);
 
 
-
-
-
-
+Route::get('/mydocs',function(){
+    return view('user.mydocs');
+    });

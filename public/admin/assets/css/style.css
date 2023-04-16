@@ -7442,7 +7442,6 @@
   --cyan: #57c7d4;
   --white: #ffffff;
   --gray: #6c757d;
-  --gray-dark: #12151e;
   --blue: #5E50F9;
   --indigo: #6610f2;
   --purple: #6a008a;
@@ -12862,13 +12861,7 @@ button.bg-light:hover,
 button.bg-light:focus {
   background-color: #e6e6e6 !important; }
 
-.bg-dark {
-  background-color: #0d0d0d !important; }
 
-a.bg-dark:hover, a.bg-dark:focus,
-button.bg-dark:hover,
-button.bg-dark:focus {
-  background-color: black !important; }
 
 .bg-white {
   background-color: #ffffff !important; }
