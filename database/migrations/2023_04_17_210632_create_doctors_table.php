@@ -11,21 +11,18 @@ class CreateDoctorsTable extends Migration
      *
      * @return void
      */
-    public function up()
+   public function up()
     {
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
-            $table->string('room')->nullable();
             $table->string('speciality')->nullable();
-            $table->string('picture');
            
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *

@@ -60,7 +60,7 @@
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
               </span>
-              <span class="menu-title">Ajouter des rendez-vous</span>
+              <span class="menu-title">Liste des rendez-vous</span>
             </a>
           </li>
 

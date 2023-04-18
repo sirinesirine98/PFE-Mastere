@@ -50,23 +50,7 @@
             <input type="text" name="speciality" style="color:black;"  value="{{$data->speciality}}">
           </div>
 
-        
-           <div style="padding:15px;">
-            <label>Sallon du consultation </label>
-            <input type="text" name="room" style="color:black;" value="{{$data->room}}">
-          </div>
-
-            <div style="padding:15px;">
-            <label>Image </label>
-          <img height="150px" src="{{$data->picture}}">
-          </div>
-
-           <div style="padding:15px;">
-            <label>Changer image </label>
-          <input type="file" name="file">
-          </div>
-
-            <div style="padding:15px;">
+          <div style="padding:15px;">
           <input type="submit" class="btn btn-primary">
           </div>
 

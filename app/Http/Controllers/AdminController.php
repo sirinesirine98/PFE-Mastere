@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\Doctor;
 use App\Models\Appointment;
+
 
 class AdminController extends Controller
 {
@@ -16,37 +16,24 @@ class AdminController extends Controller
     public function upload(Request $request)
 {
     $doctor = new doctor;
-
-    if ($request->hasFile('file')) { // Check if a file was uploaded
-        $image = $request->file('file');
-        $imagename = time().'.'.$image->getClientOriginalExtension();
-
-        $image->move('doctorimage', $imagename);
-
-        $doctor->image = $imagename;
-    }
-
     $doctor->name = $request->name;
     $doctor->phone = $request->number;
     $doctor->email = $request->email;
-    $doctor->room = $request->room;
     $doctor->speciality = $request->speciality;
     $doctor->save();
-
     return redirect()->back()->with('message','Docteur ajouter avec succées !');
 }
 
      public function liste_rdv()
         {
             $data = appointment::all();
-
             return view('admin.showappointment' , compact('data'));
         }
 
-            public function approved($id)
+            public function Approved($id)
             {
                 $data=appointment::find($id);
-                $data->status='approved';
+                $data->status='Approved';
                 $data->save();
                 return redirect()->back()->with('message','Rendez-vous valider avec succées !');
 
@@ -58,8 +45,6 @@ class AdminController extends Controller
                 $data->status='canceled';
                 $data->save();
                 return redirect()->back()->with('message','Rendez-vous valider avec succées !');
-
-
             }
 
             public function liste_docteur()
@@ -72,16 +57,12 @@ class AdminController extends Controller
             {
                 $data=doctor::find($id);
                 $data->delete();
-
-
                 return redirect()->back();
-
             }
 
             public function modifier_docteur($id)
             {
                 $data = doctor::find($id);
-               
                 return  view('admin.updatedoctor' , compact('data'));
             }
 
@@ -91,19 +72,35 @@ class AdminController extends Controller
                 $doctor-> name= $request -> name ;
                 $doctor-> phone= $request -> phone ;
                 $doctor-> speciality= $request -> speciality ;
-                $doctor-> room= $request -> room ;
-
                 $picture = $request->file;
-
-                if ($picture) 
-                {   
-                 $imagename = time().'.'.$picture->getClientOriginalExtension();
-                $request-> file -> move('doctorimage' , $imagename) ;
-                 $doctor-> picture= $imagename;
-                }
                  $doctor->save();
                  
                  return redirect()->back()->with('message','Docteur est modifier avec succées !');;
 
             }
+
+          /*  public function emailview ($id)
+
+            {
+                $data=appointment::find($id);
+                return view ('admin.email_view' , compact('data'));
+
+            }*/
+
+           /* public function sendemail(Request $request, $id)
+            {
+                $data = appointment::find($id);
+                $details=[
+                    'greeting' => $request-> greeting,
+                    'body' => $request->body,
+                    'action' => $request->action,
+                    'url' => $request->url,
+                    'end' => $request->end
+                ];
+            
+                Notification::send($data, new SendEmailNotification($details));
+
+                return redirect()->back()->with('message' , 'Email send is successful');
+
+            }*/
 }

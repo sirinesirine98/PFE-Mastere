@@ -20,6 +20,54 @@
 
   <link rel="stylesheet" href="../assets/css/theme.css">
 </head>
+<style>
+   
+    .rectangle {
+    border-radius: 15px 50px;
+    background: #D5F5E3;
+    padding: 20px; 
+    width: 200px;
+    height: 150px; 
+    float:right;
+    } 
+
+.rectangle_first-card {
+    border-radius: 15px 50px;
+  background: #D5F5E3;
+  padding: 20px; 
+  width: 100px;
+  height: 550px; 
+
+}
+
+.profile_titre {
+    font-family: Playfair Display;
+  font-weight: bold;
+  font-size: 25px;
+  text-align: center;
+  color: black;
+}
+
+nav {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+  padding: 20px;
+}
+
+
+a {
+  text-decoration: none;
+  color: #444;
+  font-weight: bold;
+  font-size: 16px;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: #007bff;
+}
+
+</style>
 <body>
 
   <!-- Back to top button -->
@@ -33,17 +81,10 @@
             <div class="site-info">
               <a href="#"><span class="mai-call text-primary"></span> +216 70 000 000</a>
               <span class="divider">|</span>
-              <a href="#"><span class="mai-mail text-primary"></span>  E-Consult@gmail.com</a>
+              <a href="#"><span class="mai-mail text-primary"></span> E-Consult@gmail.com</a>
             </div>
           </div>
-          <div class="col-sm-4 text-right text-sm">
-            <div class="social-mini-button">
-              <a href="#"><span class="mai-logo-facebook-f"></span></a>
-              <a href="#"><span class="mai-logo-twitter"></span></a>
-              <a href="#"><span class="mai-logo-dribbble"></span></a>
-              <a href="#"><span class="mai-logo-instagram"></span></a>
-            </div>
-          </div>
+        
         </div> <!-- .row -->
       </div> <!-- .container -->
     </div> <!-- .topbar -->
@@ -57,7 +98,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="icon-addon1"><span class="mai-search"></span></span>
             </div>
-            <input type="text" class="form-control" placeholder="Chercher .. " aria-label="Username" aria-describedby="icon-addon1">
+            <input type="text" class="form-control" placeholder="Chercher .." aria-label="Username" aria-describedby="icon-addon1">
           </div>
         </form>
 
@@ -67,26 +108,10 @@
 
         <div class="collapse navbar-collapse" id="navbarSupport">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="index.html">Accueil</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="about.html">À propos</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="doctors.html">Docteurs</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="blog.html">Actualités</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact.html">Contact</a>
-            </li>
-            @if(Route::has('login'))
+           @if(Route::has('login'))
 
             @auth
-
-
+            
             <x-app-layout>
             </x-app-layout>
             @else
@@ -106,31 +131,26 @@
     </nav>
   </header>
 
-  <div align="center" style="padding:70px;">
-    <table>
-        <tr style="background-color:black;">
-            <th style="padding:10px; font-size:20px; color:white">Nom docteur</th>
-            <th style="padding:10px; font-size:20px; color:white">Date</th>
-            <th style="padding:10px; font-size:20px; color:white">Message</th>
-            <th style="padding:10px; font-size:20px; color:white">Phone</th>
-            <th style="padding:10px; font-size:20px; color:white">Email</th>
-            <th style="padding:10px; font-size:20px; color:white">Status</th>
-            <th style="padding:10px; font-size:20px; color:white">Cancel</th>
-        </tr>
-        @foreach($appoint as $appoints)
-        <tr style="background-color:black; align:center">
-            <td style="padding:10px; color:white">{{$appoints -> name}}</td>
-            <td style="padding:10px; color:white">{{$appoints -> date}}</td>
-            <td style="padding:10px; color:white">{{$appoints -> message}}</td>
-            <td style="padding:10px; color:white">{{$appoints -> phone}}</td>
-            <td style="padding:10px; color:white">{{$appoints -> email}}</td>
-            <td style="padding:10px; color:white">{{$appoints -> status}}</td>
-            <td style="padding:10px; color:white"><a onclick="return confirm('Vous êtes sûre ?')" class="btn btn-danger" href="{{ url('cancel_appointment' ,$appoints->id) }}">Cancel</a></td>
-        </tr>
-        @endforeach
-    </table>
-  </div>
-  
+
+
+<div class="rectangle">
+  <p class="profile_titre">Mon profile</p>
+ </div>
+</div>
+<nav>
+  <ul>
+    <li><a href="#">Accueil</a></li>
+    <li><a href="#">A propos</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Blog</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<div class=" rectangle_first-card ">
+  <p> kk</p>
+
+</div>
 <script src="../assets/js/jquery-3.5.1.min.js"></script>
 
 <script src="../assets/js/bootstrap.bundle.min.js"></script>

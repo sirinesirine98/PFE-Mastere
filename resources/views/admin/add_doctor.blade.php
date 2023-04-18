@@ -39,10 +39,7 @@
             <input type="text" required="" name="email" style="color:black;"  placeholder="email">
             </div>
 
-            <div style="padding:15px;">
-            <label>Salle de rendez-vous </label>
-            <input type="texte" required="" name="room" style="color:black;">
-            </div>
+           
             <div style="padding:15px;">
             <label>Spécialité </label>
             <select style="color:black" name="speciality" required="" id="speciality">
@@ -56,10 +53,7 @@
                 <option value="Médecine d’urgence">Médecine d’urgence</option>
             </select>
             </div>
-            <div style="padding:15px;">
-            <label for="picture" >Image docteur </label>
-            <input type="file" required="" name="picture" >
-            </div>
+           
 
             <div style="padding:15px;">
             <input type="submit" class="btn btn-success" >

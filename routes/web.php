@@ -41,7 +41,7 @@ Route::post('/appointment', [HomeController::class , 'appointment']);
 Route::get('/myappointment', [HomeController::class , 'myappointment']);
 Route::get('/cancel_appointment/{id}', [HomeController::class , 'cancel_appointment']);
 Route::get('/liste_rdv', [AdminController::class , 'liste_rdv']);
-Route::get('/approved/{id}', [AdminController::class , 'approved']);
+Route::get('/Approved/{id}', [AdminController::class , 'Approved']);
 Route::get('/canceled/{id}', [AdminController::class , 'canceled']);
 
 
@@ -58,3 +58,6 @@ Route::post('/editdoctor/{id}', [AdminController::class , 'editdoctor']);
 Route::get('/mydocs',function(){
     return view('user.mydocs');
     });
+
+
+

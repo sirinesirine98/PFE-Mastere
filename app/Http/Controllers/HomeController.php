@@ -8,17 +8,18 @@ use App\Models\User;
 use App\Models\Doctor;
 use App\Models\Appointment;
 use App\Models\Documents;
-
+use App\Http\Requests\ArRequest;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
     public function redirect(){
         if (Auth::id())
         {
-            if (Auth::user()-> usertype=='0')
+            if (Auth::user()-> usertype=='isPatient')
             {
-                $doctor = doctor::all();
-                return view('user.home' , compact('doctor'));
+                //$doctor = doctor::all();
+                return view('patient.home' );
             }
             else  {
                 return view('admin.home');
@@ -45,22 +46,47 @@ class HomeController extends Controller
             }
     }
 
-    public function appointment(Request $request)
+    public function appointment(ArRequest $request)
     {
-        $data = new appointment; 
-        $data->name=$request->name;
-        $data->email=$request->email;
-        $data->date=$request->date;
-        $data->phone=$request->number;
-        $data->message=$request->message;
-        $data->doctor=$request->doctor;
-        $data->status='En cours';
+         //$validator = $request->validated();
+        $validator = Validator::make($request->all(), [
+            "name"=>"required|max:25" ,
+            "email" => "required|email|unique:users,email|max:255",
+            "phone" => "required|digits:8",
+            "date" => "required|date",
+            "message" => "required",
+        ]);
+        if ($validator->fails()) {
+            
+            return redirect()->back()->withErrors($validator);
+        }
+
+
+       $appointment = new appointment; 
+        /*$appointment->name = $validatedData['name'];
+    $appointment->email = $validatedData['email'];
+    $appointment->phone = $validatedData['phone'];
+    $appointment->date = $validatedData['date'];
+    $appointment->message = $validatedData['message'];
+    $appointment->doctor = $validatedData['doctor'];*/
+   $appointment->name = $request->input('name');
+$appointment->email = $request->input('email');
+$appointment->phone = $request->input('phone');
+$appointment->date = $request->input('date');
+$appointment->message = $request->input('message');
+$appointment->doctor = $request->input('doctor');
+
+    
+        /*Appointment::create($request->validated() );*/
+
+        $appointment->status='En cours';
+
         if (Auth::id())
         { 
-        $data->user_id=Auth::user()->id;
+        $appointment->user_id=Auth::user()->id;
         }
         
-        $data->save();
+        $appointment->save();
      return redirect()->back()->with('message','Rendez-vous ajouter avec succées !');
 
     }

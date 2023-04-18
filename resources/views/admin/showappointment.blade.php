@@ -33,9 +33,9 @@
                             <td>{{$appoint-> date}}</td>
                             <td>{{$appoint-> message }}</td>
                             <td>{{$appoint-> status}}</td>
-                            <td><a class="btn btn-success" href="{{url('approved' , $appoint->id)}}">Valider</a></td>
+                            <td><a class="btn btn-success" href="{{url('Approved' , $appoint->id)}}">Valider</a></td>
                             <td><a class="btn btn-danger" href="{{url('canceled' , $appoint->id)}}">Annuler</a></td>
-                        </tr>
+ </tr>
                         @endforeach
                     </table>
 

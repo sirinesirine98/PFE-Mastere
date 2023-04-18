@@ -18,18 +18,39 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    const ADMIN_TYPE = 'admin';
+    const PATIENT_TYPE = 'patient';
+    const DEFAULT_TYPE = 'default';
+
+    public function isAdmin()    
+    {        
+        return $this->usertype === self::ADMIN_TYPE;    
+    }
+
+    public function isPatient()    
+    {        
+        return $this->usertype === self::PATIENT_TYPE;    
+    }
+
+    public function isDefault()    
+    {        
+        return $this->usertype === self::DEFAULT_TYPE;    
+    }
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'phone',
-        'address',
-    ];
+   protected $fillable = [
+    'name',
+    'email',
+    'password',
+    'phone',
+    'address',
+    'patient_id',
+];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -60,4 +81,9 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $appends = [
         'profile_photo_url',
     ];
+
+     public function patient()
+    {
+        return $this->belongsTo(Patient::class);
+    }
 }

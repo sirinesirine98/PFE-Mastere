@@ -77,9 +77,7 @@
             <li class="nav-item">
               <a class="nav-link" style="background-color:lightgreen ; color:white;" href="{{ url('mydocs') }}">Mes documents</a>
             </li>
-             <li class="nav-item">
-              <a class="nav-link" style="background-color:darkseagreen; color:white;" href=" ">Room</a>
-            </li>
+            
             <x-app-layout>
             </x-app-layout>
             @else
