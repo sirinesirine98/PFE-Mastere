@@ -16,24 +16,20 @@ class HomeController extends Controller
     public function redirect(){
         if (Auth::id())
         {
-            if (Auth::user()-> usertype=='0')
+            if (Auth::user()-> usertype=='patient')
             {
-                $doctor = doctor::all();
+                //$doctor = doctor::all();
                 return view('patient.home' );
             }
-            else  {
+            else if (Auth::user()-> usertype=='medecin') {
+                return view('medecin.home');
+            }
+            else {
                 return view('admin.home');
-
             }
            
         }
-         if (Auth::user()-> usertype=='1') {
-                return view('medecin.home');
-
-            }
-        else {
-            return redirect()->back();
-        }
+        
     }
 
     public function index(){
@@ -53,8 +49,9 @@ class HomeController extends Controller
             "name"=>"required|max:25" ,
             "email" => "required|email|unique:users,email|max:255",
             "phone" => "required|digits:8",
-            "date" => "required|date",
+            "date" => "required|date|after_or_equal:today",
             "message" => "required",
+            "etat" => ['required', 'in:"Urgent","Libre"'],
         ]);
         if ($validator->fails()) {
             
@@ -74,7 +71,7 @@ $appointment->email = $request->input('email');
 $appointment->phone = $request->input('phone');
 $appointment->date = $request->input('date');
 $appointment->message = $request->input('message');
-$appointment->doctor = $request->input('doctor');
+$appointment->doctor = $request->input('departement');
 
     
         /*Appointment::create($request->validated() );*/
@@ -140,6 +137,22 @@ $appointment->doctor = $request->input('doctor');
 
          }
          
+     /* public function rdv_patient()
+{
+    $appointments = Appointment::all();
+    return view('patient.rdvs', compact('appointments'));
+}
+*/
+/*public function showAppoinForm()
+    {
+        $doctor = Doctor::all();
+        //return view('user.appointment');
+        return view('user.appointment', ['doctor' => $doctor]);
 
-    }
+    }*/
+
+}
+
+
+
 

@@ -17,7 +17,7 @@ class AdminController extends Controller
 {
     $doctor = new doctor;
     $doctor->name = $request->name;
-    $doctor->phone = $request->number;
+    $doctor->phone = $request->phone;
     $doctor->email = $request->email;
     $doctor->speciality = $request->speciality;
     $doctor->save();
@@ -44,7 +44,7 @@ class AdminController extends Controller
                 $data=appointment::find($id);
                 $data->status='canceled';
                 $data->save();
-                return redirect()->back()->with('message','Rendez-vous valider avec succées !');
+                return redirect()->back()->with('message','Rendez-vous annuler avec succées !');
             }
 
             public function liste_docteur()

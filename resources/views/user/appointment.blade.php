@@ -1,7 +1,8 @@
  <!-- .page-section -->
 
- <div class="page-section">
-    <div class="container">
+ <div class="page-section" id="appointment">
+
+   <div class="container">
       <h1 class="text-center wow fadeInUp">Demander un RDV</h1>
 
       <form class="main-form" action="{{url('appointment')}}" method="POST">
@@ -22,17 +23,17 @@
           @enderror
           </div>
            <div class="col-12 col-sm-6 py-2 wow fadeInLeft" data-wow-delay="300ms">
-            <input type="number" required  name="phone" style="color:black;"  placeholder="xxxx xxxx">
+            <input type="number" required class="form-control" name="phone" style="color:black;"  placeholder="xxxx xxxx">
              @error('phone')
        <div class="alert alert-danger">{{ $message }}</div>
           @enderror
           </div>
 
-          <div class="col-12 col-sm-6 py-2 wow fadeInRight" data-wow-delay="300ms">
-            <select name="departement" id="departement" class="custom-select">
-              <option>----Selectionner docteur----</option>
+          <div class="col-12 col-sm-6 py-2 wow fadeInRight" required data-wow-delay="300ms">
+            <select name="departement" id="departement" required class="custom-select">
+              <option required>----Selectionner docteur----</option>
              @foreach($doctor as $doctors)
-              <option value="{{$doctors->name}}">{{$doctors->name}} -- Specialité -- {{$doctors->speciality}}</option>
+              <option required value="{{$doctors->name}}">{{$doctors->name}} -- Specialité -- {{$doctors->speciality}}</option>
                @endforeach
             </select>
              @error('departement')
@@ -40,10 +41,10 @@
           @enderror
           </div>
 
-          <div class="col-12 col-sm-6 py-2 wow fadeInLeft" data-wow-delay="300ms">
-            <input type="date" required name="date" class="form-control">
+          <div required class="col-12 col-sm-6 py-2 wow fadeInLeft" data-wow-delay="300ms">
+            <input type="date" required name="date" min="{{ date('d-m-Y') }}" class="form-control">
              @error('date')
-       <div class="alert alert-danger">{{ $message }}</div>
+       <div required class="alert alert-danger">{{$message}}</div>
           @enderror
             
           </div>
@@ -51,19 +52,19 @@
           
           <div class="col-12 col-sm-6 py-2 wow fadeInRight" data-wow-delay="300ms">
     <label>
-        <input type="radio" name="etat" value="Urgent"> État d'urgence    </label>
+        <input type="radio" required name="etat" value="Urgent"> État d'urgence    </label>
     <label>
-        <input type="radio" name="etat" value="Libre"> État consultation libre    </label>
+        <input type="radio" required name="etat" value="Libre"> État consultation libre    </label>
 </div>
 
-          <div class="col-12 py-2 wow fadeInUp" data-wow-delay="300ms">
-            <textarea name="message" id="message" class="form-control" rows="6" placeholder="Enter votre message..">
-              @error('message')
-       <div class="alert alert-danger">{{ $message }}</div>
-          @enderror
-            </textarea>
-          </div>
-        </div>
+        <div class="col-12 py-2 wow fadeInUp" data-wow-delay="300ms">
+  <textarea name="message" required id="message" class="form-control" rows="6" placeholder="Enter votre message.."></textarea>
+  @error('message')
+    <div class="alert alert-danger">{{ $message }}</div>
+  @enderror
+</div>
+
+
                 <button type="submit" class="btn btn-primary">Envoyer</button>
                 
 

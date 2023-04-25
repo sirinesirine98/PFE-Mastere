@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -60,4 +61,7 @@ Route::get('/mydocs',function(){
     });
 
 
+Route::get('/rdv', [HomeController::class , 'rdv_view'])->name('rdv');
 
+
+//Route::get('/priserdv', [HomeController::class, 'showAppoinForm'])->name('priserdv');

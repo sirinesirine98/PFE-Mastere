@@ -81,12 +81,17 @@
             <x-app-layout>
             </x-app-layout>
             @else
+            
+             <li class="appointment-btn">
+              <a href="#appointment">Demander un RDV</a>
+            </li>
             <li class="nav-item">
               <a class="btn btn-primary ml-lg-3" href="{{route('login')}}">Login </a>
             </li> 
             <li class="nav-item">
               <a class="btn btn-primary ml-lg-3" href="{{route('register')}}">Register </a>
             </li>
+            
             @endauth
             @endif
 
@@ -167,9 +172,9 @@
     </div> <!-- .bg-light -->
   </div> <!-- .bg-light -->
 
- @include('user.doctor')
+@include('user.doctor')
   
-  @include('user.latest')
+@include('user.latest')
 
 @include('user.appointment')
 

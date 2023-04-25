@@ -22826,5 +22826,18 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/css/app.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
-/******/ })()
+  /******/
+})()
+  
+  /*
+$(document).ready(function () {
+  // Add smooth scrolling to all links
+  $("#scroll-to-section").on('click', function (event) {
+
+    $('html, body').animate({
+      scrollTop: $("#target-section").offset().top
+    }, 1000);
+  })
+})
+ // End if*/
 ;

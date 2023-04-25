@@ -25,6 +25,7 @@
                             <th style="padding:10px;text-align:center; color:white">Annuler</th>
                         </tr>
                         @foreach($data as $appoint)
+                         @if($appoint->status != 'canceled')
                         <tr align="center" style="background-color:#F5F5F5; color:black">
                             <td>{{$appoint-> name }}</td>
                             <td>{{$appoint-> email}}</td>
@@ -35,7 +36,8 @@
                             <td>{{$appoint-> status}}</td>
                             <td><a class="btn btn-success" href="{{url('Approved' , $appoint->id)}}">Valider</a></td>
                             <td><a class="btn btn-danger" href="{{url('canceled' , $appoint->id)}}">Annuler</a></td>
- </tr>
+                        </tr>
+                           @endif
                         @endforeach
                     </table>
 

@@ -37,14 +37,15 @@
                 <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 
-           <div class="mt-4">
-                 <x-jet-label for="usertype" value="{{ __('User Type') }}" />
-                     <select name="usertype" id="usertype" class="block mt-1 w-full">
-                         <option value=" ">-------</option>
-                         <option value="patient">Patient</option>
-                         <option value="medecin">Medecin</option>
-                     </select>
-            </div>
+            <div class="mt-4">
+                    <x-jet-label for="usertype" value="{{ __('User Type') }}" />
+                        <select name="usertype" id="usertype" class="block mt-1 w-full">
+                            <option value=" ">-------</option>
+                            <option value="patient">Patient</option>
+                            <option value="medecin">Medecin</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                </div>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">

@@ -1,21 +1,5 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-       @include('admin.css')
-  </head>
-  <body>
-    <div class="container-scroller">
-      <!-- partial:partials/_sidebar.html -->
-     @include('admin.sidebar')
-      <!-- partial -->
-     @include('admin.navbar')
-        <!-- partial -->
-     <h1>test page medecin</h1>
-   
+<x-app-layout>
+  
+      <h2>Medecin interface</h2>
 
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    @include('admin.script')
-    <!-- End custom js for this page -->
-  </body>
-</html>
+</x-app-layout>
