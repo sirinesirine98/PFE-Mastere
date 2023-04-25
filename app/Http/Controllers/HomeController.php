@@ -16,9 +16,9 @@ class HomeController extends Controller
     public function redirect(){
         if (Auth::id())
         {
-            if (Auth::user()-> usertype=='isPatient')
+            if (Auth::user()-> usertype=='0')
             {
-                //$doctor = doctor::all();
+                $doctor = doctor::all();
                 return view('patient.home' );
             }
             else  {

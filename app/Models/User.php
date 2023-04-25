@@ -18,25 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use TwoFactorAuthenticatable;
 
-    const ADMIN_TYPE = 'admin';
-    const PATIENT_TYPE = 'patient';
-    const DEFAULT_TYPE = 'default';
-
-    public function isAdmin()    
-    {        
-        return $this->usertype === self::ADMIN_TYPE;    
-    }
-
-    public function isPatient()    
-    {        
-        return $this->usertype === self::PATIENT_TYPE;    
-    }
-
-    public function isDefault()    
-    {        
-        return $this->usertype === self::DEFAULT_TYPE;    
-    }
-
+  
     /**
      * The attributes that are mass assignable.
      *
@@ -48,6 +30,7 @@ class User extends Authenticatable implements MustVerifyEmail
     'password',
     'phone',
     'address',
+    'usertype',
     'patient_id',
 ];
 
