@@ -10,7 +10,7 @@
       <!-- partial -->
      @include('admin.navbar')
         <!-- partial -->
-     @include('admin.body')
+    
    
 
     <!-- container-scroller -->

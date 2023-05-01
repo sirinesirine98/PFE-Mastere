@@ -19,6 +19,7 @@
                             <th style="padding:10px;text-align:center; color:white">Email</th>
                             <th style="padding:10px;text-align:center; color:white">Téléphone</th>
                             <th style="padding:10px;text-align:center; color:white">Spécialité</th>
+                            <th style="padding:10px;text-align:center; color:white">Image</th>
                             <th style="padding:10px;text-align:center; color:white">Supprimer</th>
                             <th style="padding:10px;text-align:center; color:white">Modifier</th>
                         </tr>
@@ -28,6 +29,7 @@
                             <td>{{ $doctor -> email}}</td>
                             <td>{{ $doctor -> phone}}</td>
                             <td>{{ $doctor -> speciality}}</td>
+                            <td>{{ $doctor -> image}}</td>
                             <td><a onclick="return confirm('Vous êtes sûre de supprimer le docteur ?') " href="{{ url('supprimer_docteur' , $doctor->id) }}" class="btn btn-danger">Supprimer</a></td>
                             <td><a onclick="return confirm('Vous êtes sûre de modifier le docteur ?') " href="{{ url('modifier_docteur' , $doctor->id) }}" class="btn btn-primary">Modifier</td>
                         </tr>

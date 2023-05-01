@@ -157,10 +157,9 @@
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-6 py-3 wow fadeInUp">
-          <h1> Bienvenue dans notre site de TéléConsultation <br> Center</h1>
-            <p class="text-grey mb-4">
+          <h1> Bienvenue dans notre site de Téléconsultation </h1>
+            <p class="text-black mb-4">
               Nous sommes à votre disponibilité afin de nous aider dans la vie médicale</p>
-            <a href="about.html" class="btn btn-primary">À propos</a>
           </div>
           <div class="col-lg-6 wow fadeInRight" data-wow-delay="400ms">
             <div class="img-place custom-img-1">

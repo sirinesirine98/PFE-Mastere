@@ -54,6 +54,10 @@
             </select>
             </div>
            
+             <div style="padding: 20px">
+            <label for="image" >Image du docteur </label>
+            <input type="file" required name="image" >
+            </div>
 
             <div style="padding:15px;">
             <input type="submit" class="btn btn-success" >

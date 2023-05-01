@@ -16,10 +16,11 @@ class HomeController extends Controller
     public function redirect(){
         if (Auth::id())
         {
+            $doctor = doctor::all();
             if (Auth::user()-> usertype=='patient')
             {
-                //$doctor = doctor::all();
-                return view('patient.home' );
+                
+                return view('patient.home');
             }
             else if (Auth::user()-> usertype=='medecin') {
                 return view('medecin.home');
@@ -32,61 +33,59 @@ class HomeController extends Controller
         
     }
 
-    public function index(){
+    public function index()
+    {
          if (Auth::id())
          { return redirect('home');}
         else 
             {
+
         $doctor = doctor::all();
         return view('user.home' , compact('doctor'));
-            }
+      }
     }
 
-    public function appointment(ArRequest $request)
-    {
-         //$validator = $request->validated();
-        $validator = Validator::make($request->all(), [
-            "name"=>"required|max:25" ,
-            "email" => "required|email|unique:users,email|max:255",
-            "phone" => "required|digits:8",
-            "date" => "required|date|after_or_equal:today",
-            "message" => "required",
-            "etat" => ['required', 'in:"Urgent","Libre"'],
-        ]);
-        if ($validator->fails()) {
-            
-            return redirect()->back()->withErrors($validator);
-        }
+  public function appointment(Request $request)
+{
+    $appointment = new appointment; 
+    $appointment->name = $request->name;
+    $appointment->email = $request->email;
+    $appointment->phone = $request->phone;
+    $appointment->date = $request->date;
+    $appointment->message = $request->message;
+    $appointment->doctor = $request->departement;
+    $appointment->etat = $request->etat;
+    $appointment->status='En cours';
 
-
-       $appointment = new appointment; 
-        /*$appointment->name = $validatedData['name'];
-    $appointment->email = $validatedData['email'];
-    $appointment->phone = $validatedData['phone'];
-    $appointment->date = $validatedData['date'];
-    $appointment->message = $validatedData['message'];
-    $appointment->doctor = $validatedData['doctor'];*/
-   $appointment->name = $request->input('name');
-$appointment->email = $request->input('email');
-$appointment->phone = $request->input('phone');
-$appointment->date = $request->input('date');
-$appointment->message = $request->input('message');
-$appointment->doctor = $request->input('departement');
-
-    
-        /*Appointment::create($request->validated() );*/
-
-        $appointment->status='En cours';
-
-        if (Auth::id())
-        { 
+    if (Auth::id()) { 
         $appointment->user_id=Auth::user()->id;
-        }
-        
-        $appointment->save();
-     return redirect()->back()->with('message','Rendez-vous ajouter avec succées !');
-
     }
+        
+    $appointment->save();
+
+    //envoyer une notif au user 
+    if (Auth::check()) {
+        $user = Auth::user();
+        $user->notify(new AppointmentRequestNotification($appointment));
+    }
+        
+    if ($appointment->status == 'approved') {
+        $patient = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+
+            'password' => Hash::make('password'),
+            'usertype' => 'patient',
+        ]);
+        
+        $patient->save();
+    }
+
+    return redirect()->back()->with('message','Rendez-vous ajouté avec succès ! Vérifier votre boite Email pour avoir la réponse de votre demande :)');
+}
+
 
     public function myappointment()
     {
@@ -136,20 +135,7 @@ $appointment->doctor = $request->input('departement');
             return view ('user.mydocs' );
 
          }
-         
-     /* public function rdv_patient()
-{
-    $appointments = Appointment::all();
-    return view('patient.rdvs', compact('appointments'));
-}
-*/
-/*public function showAppoinForm()
-    {
-        $doctor = Doctor::all();
-        //return view('user.appointment');
-        return view('user.appointment', ['doctor' => $doctor]);
-
-    }*/
+     
 
 }
 

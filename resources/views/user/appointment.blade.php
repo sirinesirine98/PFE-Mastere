@@ -31,9 +31,9 @@
 
           <div class="col-12 col-sm-6 py-2 wow fadeInRight" required data-wow-delay="300ms">
             <select name="departement" id="departement" required class="custom-select">
-              <option required>----Selectionner docteur----</option>
+              <option required> - Sélectionner docteur -</option>
              @foreach($doctor as $doctors)
-              <option required value="{{$doctors->name}}">{{$doctors->name}} -- Specialité -- {{$doctors->speciality}}</option>
+              <option required value="{{$doctors->name}}">{{$doctors->name}} - Specialité - {{$doctors->speciality}}</option>
                @endforeach
             </select>
              @error('departement')

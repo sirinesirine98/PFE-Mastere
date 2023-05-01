@@ -69,4 +69,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo(Patient::class);
     }
+
+    public function routeNotificationForMail()
+{
+    return env('MAIL_TEST_ADDRESS', $this->email);
+}
+
 }

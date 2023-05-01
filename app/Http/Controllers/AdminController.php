@@ -13,16 +13,27 @@ class AdminController extends Controller
         return view('admin.add_doctor');
     }
 
-    public function upload(Request $request)
+   public function upload(Request $request)
 {
     $doctor = new doctor;
+
+    if ($request->hasFile('image')) { // Check if a file was uploaded
+        $image = $request->file('image');
+        $imagename = time().'.'.$image->getClientOriginalExtension();
+
+        $image->move('doctorimage', $imagename);
+
+        $doctor->image = $imagename;
+    }
     $doctor->name = $request->name;
     $doctor->phone = $request->phone;
     $doctor->email = $request->email;
     $doctor->speciality = $request->speciality;
+
     $doctor->save();
     return redirect()->back()->with('message','Docteur ajouter avec succées !');
 }
+
 
      public function liste_rdv()
         {
@@ -79,28 +90,6 @@ class AdminController extends Controller
 
             }
 
-          /*  public function emailview ($id)
-
-            {
-                $data=appointment::find($id);
-                return view ('admin.email_view' , compact('data'));
-
-            }*/
-
-           /* public function sendemail(Request $request, $id)
-            {
-                $data = appointment::find($id);
-                $details=[
-                    'greeting' => $request-> greeting,
-                    'body' => $request->body,
-                    'action' => $request->action,
-                    'url' => $request->url,
-                    'end' => $request->end
-                ];
-            
-                Notification::send($data, new SendEmailNotification($details));
-
-                return redirect()->back()->with('message' , 'Email send is successful');
-
-            }*/
+         
+          
 }
