@@ -86,10 +86,10 @@
               <a href="#appointment">Demander un RDV</a>
             </li>
             <li class="nav-item">
-              <a class="btn btn-primary ml-lg-3" href="{{route('login')}}">Login </a>
+              <a class="btn btn-primary ml-lg-3" href="{{route('login')}}">Connecter </a>
             </li> 
             <li class="nav-item">
-              <a class="btn btn-primary ml-lg-3" href="{{route('register')}}">Register </a>
+              <a class="btn btn-primary ml-lg-3" href="{{route('register')}}">Créer un compte </a>
             </li>
             
             @endauth

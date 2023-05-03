@@ -29,6 +29,8 @@ class ArRequest extends FormRequest
             "phone" => "required|digits:8",
             "date" => "required|date",
             "message" => "required",
+            "heure" => "required|date_format:H:i",
+
         ];
     }
 }

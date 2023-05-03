@@ -16,9 +16,9 @@
        
 
         <ul>
-  <li><a href="#" id="lien-rendezvous">Appointment</a></li>
-  <li><a href="#" id="lien-patients">Patient</a></li>
-  <li><a href="#" id="lien-parametres">Settings</a></li>
+  <li><a href="#" id="lien-rendezvous">Rendez-vous</a></li>
+  <li><a href="#" id="lien-patients">Patients</a></li>
+  <li><a href="#" id="lien-parametres">Paramétres</a></li>
 </ul>
 
     </div>
@@ -40,14 +40,14 @@
                 <div class="liste-patients">
                     <div class="title">
                         <h2>Patient list</h2>
-                        <a href="#" class="btn">Display</a>
+                        <a href="#" class="btn">Afficher</a>
                     </div>
                     <table>
                         <tr>
                             <th>IPP</th>
-                            <th>Name</th>
-                            <th>Birthday date</th>
-                            <th>Result</th>
+                            <th>Nom patient</th>
+                            <th>Date de naissance</th>
+                            <th>Résultat</th>
                             <th>Options</th>
 
 
@@ -58,12 +58,12 @@
                              <td>aa</td>
                              <td>aa</td>
                          
-                            <td><a href="#" class="btn">To consult</a></td>
+                            <td><a href="#" class="btn">Consulter</a></td>
                         </tr>
                         <tr>
                              <td>aa</td>
                              <td>aa</td> <td>aa</td> <td>aa</td>
-                            <td><a href="#" class="btn">To consult</a></td>
+                            <td><a href="#" class="btn">Consulter</a></td>
                         </tr>
                        
                        
@@ -72,13 +72,13 @@
                 <div class="historique">
                     <div class="title">
                         <h2>Historique</h2>
-                        <a href="#" class="btn">Display</a>
+                        <a href="#" class="btn">Afficher</a>
                     </div>
                     <table>
                         <tr>
-                            <th>Shared files</th>
-                            <th>Report</th>
-                            <th>Pictures</th>
+                            <th>Fichier partagers</th>
+                            <th>Comptes rendu</th>
+                            <th>Images</th>
                         </tr>
                         <tr>
                             <td><img src="user.png" alt=""></td>

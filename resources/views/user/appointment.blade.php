@@ -49,6 +49,14 @@
             
           </div>
           
+          <div class="col-12 py-2 wow fadeInUp" data-wow-delay="300ms">
+    <label for="heure">Heure :</label>
+    <input type="time" required name="heure" id="heure" class="form-control">
+    @error('heure')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
+</div>
+
           
           <div class="col-12 col-sm-6 py-2 wow fadeInRight" data-wow-delay="300ms">
     <label>
