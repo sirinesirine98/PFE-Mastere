@@ -25,9 +25,10 @@ class CreatePatientTable extends Migration
             $table->unsignedBigInteger('doctor_id')->nullable();
 $table->foreign('doctor_id')->references('id')->on('doctors')->onDelete('cascade');
 
+
             $table->timestamps();
 
-            
+
         });
 
     }
