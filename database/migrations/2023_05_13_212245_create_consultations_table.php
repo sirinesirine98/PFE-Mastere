@@ -14,10 +14,15 @@ class CreateConsultationsTable extends Migration
     public function up()
     {
         Schema::create('Consultations', function (Blueprint $table) {
-            $table->string('id_consultation')->primary();
+            $table->id('id_consultation');
             $table->date('date_consultation')->nullable();
             $table->time('heure_consultation')->nullable();
+  $table->unsignedBigInteger('teleconsultation_id');
 
+        $table->foreign('teleconsultation_id')
+            ->references('id_teleconsultation')
+            ->on('Teleconsultations')
+            ->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -8,7 +8,7 @@
 
   <meta name="copyright" content="MACode ID, https://macodeid.com/">
 
-  <title>E-Consult</title>
+  <title >E-Consult</title>
 
   <link rel="stylesheet" href="../assets/css/maicons.css">
 
@@ -20,6 +20,26 @@
 
   <link rel="stylesheet" href="../assets/css/theme.css">
 </head>
+<style>
+  .titre {
+     background: #f05462;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+  }
+  .btn {
+    background: #f05462;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+}
+.btn:hover {
+    color: #f05462;
+    background: white;
+    padding: 3px 8px;
+    border: 2px solid #f05462;
+}
+</style>
 <body>
 
   <!-- Back to top button -->
@@ -31,9 +51,9 @@
         <div class="row">
           <div class="col-sm-8 text-sm">
             <div class="site-info">
-              <a href="#"><span class="mai-call text-primary"></span> +216 70 000 000</a>
+              <a href="#"><span class="mai-call"></span> +216 70 000 000</a>
               <span class="divider">|</span>
-              <a href="#"><span class="mai-mail text-primary"></span> E-Consult@gmail.com</a>
+              <a href="#"><span class="mai-mail"></span> E-Consult@gmail.com</a>
             </div>
           </div>
           <div class="col-sm-4 text-right text-sm">
@@ -50,16 +70,8 @@
 
     <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
       <div class="container">
-        <a class="navbar-brand" href="#"><span class="text-primary">E</span>-Consult</a>
+        <a class="navbar-brand" href="#"><span>E</span>-Consult</a>
 
-        <form action="#">
-          <div class="input-group input-navbar">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="icon-addon1"><span class="mai-search"></span></span>
-            </div>
-            <input type="text" class="form-control" placeholder="Chercher .." aria-label="Username" aria-describedby="icon-addon1">
-          </div>
-        </form>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport" aria-controls="navbarSupport" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -71,25 +83,26 @@
 
             @auth
 
-              <li class="nav-item">
+            <!--  <li class="nav-item">
               <a class="nav-link" style="background-color:greenyellow ; color:white;" href="{{ url('myappointment') }}">Mes RDV</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" style="background-color:lightgreen ; color:white;" href="{{ url('mydocs') }}">Mes documents</a>
-            </li>
+            </li>-->
             
             <x-app-layout>
             </x-app-layout>
             @else
             
              <li class="appointment-btn">
-              <a href="#appointment">Demander un RDV</a>
-            </li>
+              <a class="btn" href="#appointment">Demander un RDV</a>
+            </li> &nbsp;&nbsp;&nbsp;
             <li class="nav-item">
-              <a class="btn btn-primary ml-lg-3" href="{{route('login')}}">Login </a>
+              <a class="btn"  href="{{route('login')}}">Login </a>
             </li> 
+            &nbsp;&nbsp;&nbsp;
             <li class="nav-item">
-              <a class="btn btn-primary ml-lg-3" href="{{route('register')}}">Register </a>
+              <a class="btn" href="{{route('register')}}">Register </a>
             </li>
             
             @endauth
@@ -113,8 +126,8 @@
   <div class="page-hero bg-image overlay-dark" style="background-image: url(../assets/img/bg_image_1.jpg);">
     <div class="hero-section">
       <div class="container text-center wow zoomIn">
-        <span class="subhead">On va faciliter votre</span>
-        <h1 class="display-4">Vie médicale</h1>
+        <!--<span class="subhead">On va faciliter votre</span>-->
+        <h1 class="display-6">Consultez des médecins qualifiés en ligne et bénéficiez d'un suivi médical à distance avec notre plateforme de téléconsultation sécurisée et pratique</h1>
         <a href="#" class="btn btn-primary">Consultation</a>
       </div>
     </div>

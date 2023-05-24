@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDocumentsTable extends Migration
+class CreateDocumentsPartagesTeleconsultationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class CreateDocumentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('document', function (Blueprint $table) {
-            $table->id();
+        Schema::create('documents_partages_teleconsultation', function (Blueprint $table) {
+     
+    $table->id();
              $table->string('name')->nullable();
             $table->string('date')->nullable();
             $table->string('status')->nullable();
@@ -23,6 +24,13 @@ class CreateDocumentsTable extends Migration
             $table->string('user_id')->nullable();
             $table->string('doctor_id')->nullable();
             $table->timestamps();
+            $table->unsignedBigInteger('teleconsultation_id');
+
+        $table->foreign('teleconsultation_id')
+            ->references('id_teleconsultation')
+            ->on('Teleconsultations')
+            ->onDelete('cascade');
+
         });
     }
 
@@ -33,6 +41,6 @@ class CreateDocumentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('documents');
+        Schema::dropIfExists('documents_partages_teleconsultation');
     }
 }

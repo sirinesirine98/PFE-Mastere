@@ -14,13 +14,12 @@ class CreateRoomTable extends Migration
    public function up()
 {
     Schema::create('room', function (Blueprint $table) {
-        $table->string('id_room')->primary();
+        $table->id('id_room');
         $table->string('code_room')->nullable();
         $table->string('id_teleconsultation')->nullable();//to add relationship
         $table->string('matricule_medecin')->nullable();//to add relationship
         $table->string('consultation_id')->nullable();//to add relationship
         $table->string('IPPP')->nullable();//to add relationship
-        $table->foreign('id_teleconsultation')->references('id_teleconsultation')->on('Teleconsultations')->onDelete('cascade');
    
         $table->timestamps();
     });

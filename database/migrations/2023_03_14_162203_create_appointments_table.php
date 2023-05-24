@@ -22,7 +22,6 @@ class CreateAppointmentsTable extends Migration
             $table->string('date')->nullable();
             $table->string('message')->nullable();
             $table->string('status')->nullable();
-            $table->string('user_id')->nullable();
             $table->string('etat')->nullable(); 
                  
           $table->timestamps();

@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Documents extends Model
+class CompteRendu extends Model
 {
-    use HasFactory;
 
     public function teleconsultation()
     {
         return $this->belongsTo(Teleconsultation::class);
     }
+
+  
 }
+

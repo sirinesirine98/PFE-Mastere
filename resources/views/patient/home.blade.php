@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Consultiny</title>
+    <title>E-Consult</title>
 </head>
 <body>
     <div class="side-menu">
@@ -14,11 +14,12 @@
             <h1>Bienvenue </h1>
         </div>
         <ul>
-            <li><img src="" alt="">&nbsp;<span>Rendez-vous</span> </li>
-            <li><img src="" alt="">&nbsp;<span>Notifications</span> </li>
-            <li><img src="" alt="">&nbsp;<span>Fichiers partagers</span> </li>
-            <li><img src="" alt="">&nbsp;<span>Comptes rendu</span> </li>
-            <li><img src="" alt="">&nbsp;<span>Autre si on a besoin</span> </li>
+              <li><a href="#" id="lien-rendezvous">Liste des rendez-vous</a></li>
+              <li><a href="#" id="lien-notification">Notifications</a></li>
+              <li><a href="#" id="lien-files">Fichiers paratgées</a></li>
+              <li><a href="#" id="lien-cro">Comptes rendus</a></li>
+
+         
         </ul>
     </div>
     <div class="container">
@@ -139,7 +140,101 @@
     </div>
 </body>
 </html>
+<script>
+// Récupérer les éléments HTML nécessaires
+const lienrendezvous = document.getElementById('lien-rendezvous');
+const liennotification = document.getElementById('lien-notification');
+const lienfiles = document.getElementById('lien-files');
+const liencro = document.getElementById('lien-cro');
 
+const contenu = document.querySelector('.content');
+
+// Ajouter un gestionnaire d'événements de clic sur chaque lien de navigation
+lienrendezvous.addEventListener('click', afficherRendezVous);
+liennotification.addEventListener('click', afficherNotifications);
+lienfiles.addEventListener('click', afficherFiles);
+liencro.addEventListener('click', afficherCRO);
+
+// Fonction pour afficher le contenu de la section Rendez-vous
+function afficherRendezVous() {
+  contenu.innerHTML = `
+     
+   <div class="content">
+            <div class="cards"></div>
+            <div class="content-2">
+                <div class="liste-patients">
+                    <div class="title">
+                        <h2>Les Rendez-Vous</h2>
+                    </div>
+                  
+                </div>
+           </div>
+        </div>
+  
+  `;
+}
+
+// Fonction pour afficher le contenu de la section Notifications
+function afficherNotifications() {
+  contenu.innerHTML = `
+     
+   <div class="content">
+            <div class="cards"></div>
+            <div class="content-2">
+                <div class="liste-patients">
+                    <div class="title">
+                        <h2>Les Notifications</h2>
+                      
+                    </div>
+                  
+                </div>
+           </div>
+        </div>
+  
+  `;
+}
+
+// Fonction pour afficher le contenu de la section SharedFiles
+function afficherFiles() {
+  contenu.innerHTML = `
+     
+   <div class="content">
+            <div class="cards"></div>
+            <div class="content-2">
+                <div class="liste-patients">
+                    <div class="title">
+                        <h2>Les Fichiers Partagées</h2>
+                      
+                    </div>
+                  
+                </div>
+           </div>
+        </div>
+  
+  `;
+}
+
+// Fonction pour afficher le contenu de la section Comptes rendus
+function afficherCRO() {
+  contenu.innerHTML = `
+     
+   <div class="content">
+            <div class="cards"></div>
+            <div class="content-2">
+                <div class="liste-patients">
+                    <div class="title">
+                        <h2>Les CRO </h2>
+                      
+                    </div>
+                  
+                </div>
+           </div>
+        </div>
+  
+  `;
+}
+
+</script>
 <style>
   * {
     margin: 0;

@@ -11,15 +11,18 @@ class CreateAgendasTable extends Migration
      *
      * @return void
      */
-    public function up()
+        public function up()
     {
         Schema::create('agendas', function (Blueprint $table) {
-            $table->string('id_agenda')->primary();
+            $table->id('agenda_id');
             $table->date('date_consultation');
             $table->time('heure_consultation');
-            $table->string('matricule_medecin');
+            $table->unsignedBigInteger('doctor_id')->unique();
             $table->string('id_rdv');
             $table->timestamps();
+            $table->foreign('doctor_id')->references('id')->on('doctors')->onDelete('cascade');
+
+
         });
     }
 

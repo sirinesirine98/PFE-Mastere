@@ -36,19 +36,28 @@
          <form action="{{ url('editdoctor' , $data->id) }}" method="POST" enctype="multipart/form-data">
           @csrf
           <div style="padding:15px;">
-            <label>Nom du docteur </label>
+            <label>Nom du médecin </label>
             <input type="text" style="color:black;" name="name" value="{{$data->name}}">
           </div>
 
            <div style="padding:15px;">
-            <label>Téléphone du docteur </label>
+            <label>Téléphone du médecin </label>
             <input type="number" name="phone" style="color:black;"  value="{{$data->phone}}">
           </div>
 
-           <div style="padding:15px;">
-            <label>Spécialité du docteur </label>
-            <input type="text" name="speciality" style="color:black;"  value="{{$data->speciality}}">
-          </div>
+          
+
+          <div style="padding: 15px;">
+    <label>Spécialité du médecin</label>
+    <select style="color: black;" name="speciality" required>
+        <option>--Sélectionner--</option>
+        @foreach($specialities as $speciality)
+            <option value="{{ $speciality }}" {{ $data->speciality == $speciality ? 'selected' : '' }}>
+                {{ $speciality }}
+            </option>
+        @endforeach
+    </select>
+</div>
 
           <div style="padding:15px;">
           <input type="submit" class="btn btn-primary">

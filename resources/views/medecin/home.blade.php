@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Consultiny</title>
+    <title>E-Consult</title>
 </head>
 <body>
     <div class="side-menu">
@@ -121,8 +121,20 @@ lienParametres.addEventListener('click', afficherParametres);
 // Fonction pour afficher le contenu de la section Rendez-vous
 function afficherRendezVous() {
   contenu.innerHTML = `
-    <h2>Rendez-vous</h2>
-    <p>Contenu de la section Rendez-vous.</p>
+     
+   <div class="content">
+            <div class="cards"></div>
+            <div class="content-2">
+                <div class="liste-patients">
+                    <div class="title">
+                        <h2>Les Rendez-Vous</h2>
+                      
+                    </div>
+                  
+                </div>
+           </div>
+        </div>
+  
   `;
 }
 
@@ -388,8 +400,63 @@ td {
 // Fonction pour afficher le contenu de la section Paramètres
 function afficherParametres() {
   contenu.innerHTML = `
-    <h2>Paramètres</h2>
-    <p>Contenu de la section Paramètres.</p>
+    <h2>A voir</h2>
+    
+
+      
+   <div class="content">
+            <div class="cards"></div>
+            <div class="content-2">
+                <div class="liste-patients">
+                    <div class="title">
+                        <h2>Liste des patients</h2>
+                      
+                    </div>
+                    <table>
+                        <tr>
+                       
+                            <th>IPP</th>
+                            <th>NOM</th>
+                            <th>PRÉNOM</th>
+                            <th>DATE DE NAISSANCE</th>
+                            <th>VILLE</th>
+                            <th>TÉLÉPHONE</th>
+                            <th>N° DOSSIER</th>
+                            <th>ACTIONS</th>
+
+
+                        </tr>
+                        <tr>
+                            <td>aa</td>
+                            <td>aa</td>
+                             <td>aa</td>
+                             <td>aa</td>
+                             <td>aa</td>
+                             <td>aa</td>
+                             <td>aa</td>
+                         
+                            <td><a href="#" class="btn">Fichiers</a>
+                           <a href="#" class="btn">Historique</a>
+                            <a href="#" class="btn">Archiver</a></td>
+                        </tr>
+                        <tr>
+                              <td>aa</td>
+                            <td>aa</td>
+                             <td>aa</td>
+                             <td>aa</td>
+                             <td>aa</td>
+                             <td>aa</td>
+                             <td>aa</td>
+   <td><a href="#" class="btn">Fichiers</a>
+                           <a href="#" class="btn">Historique</a>
+                            <a href="#" class="btn">Archiver</a></td>                        </tr>
+                       
+                       
+                    </table>
+                </div>
+           </div>
+        </div>
+  
   `;
 }
 

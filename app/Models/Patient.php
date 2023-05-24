@@ -39,7 +39,6 @@ class Patient extends Model
         return $this->hasMany(Message::class);
     }
 
-    // Rest of the model code...
 }
 
 

@@ -23,7 +23,7 @@
           @enderror
           </div>
            <div class="col-12 col-sm-6 py-2 wow fadeInLeft" data-wow-delay="300ms">
-            <input type="number" required class="form-control" name="phone" style="color:black;"  placeholder="xxxx xxxx">
+            <input type="number" required class="form-control" maxlength="8" name="phone" style="color:black;"  placeholder="xxxx xxxx">
              @error('phone')
        <div class="alert alert-danger">{{ $message }}</div>
           @enderror
@@ -42,7 +42,7 @@
           </div>
 
           <div required class="col-12 col-sm-6 py-2 wow fadeInLeft" data-wow-delay="300ms">
-            <input type="date" required name="date" min="{{ date('d-m-Y') }}" class="form-control">
+            <input type="date" required name="date" class="form-control">
              @error('date')
        <div required class="alert alert-danger">{{$message}}</div>
           @enderror

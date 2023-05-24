@@ -11,23 +11,21 @@ class CreateTeleconsultationsTable extends Migration
      *
      * @return void
      */
-     public function up()
-    {
-        Schema::create('Teleconsultations', function (Blueprint $table) {
-            $table->string('id_teleconsultation')->primary();
-            $table->date('date_teleconsultation')->nullable();
-            $table->time('heure_teleconsultation')->nullable();
-            $table->string('prenom_patient')->nullable(); 
-            
-   $table->timestamps();
-        });
-    }
+   public function up()
+{
+    Schema::create('Teleconsultations', function (Blueprint $table) {
+        $table->id('id_teleconsultation');
+        $table->date('date_teleconsultation')->nullable();
+        $table->time('heure_teleconsultation')->nullable();
+        $table->string('prenom_patient')->nullable();
+        $table->unsignedBigInteger('admin_id');
+        $table->timestamps();
+        
+      
+      //  $table->foreign('admin_id')->references('admin_id')->on('admin')->onDelete('cascade');
+    });
+}
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('teleconsultations');

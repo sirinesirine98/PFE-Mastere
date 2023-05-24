@@ -58,11 +58,14 @@ class AdminController extends Controller
                 return redirect()->back()->with('message','Rendez-vous annuler avec succées !');
             }
 
-            public function liste_docteur()
-            {
-                $data = doctor::all();
-                return view ('admin.showdoctor', compact('data'));
-            }
+          public function liste_docteur()
+{
+    $doctors = Doctor::all();
+    return response()->json($doctors);
+}
+
+
+
 
             public function supprimer_docteur($id)
             {
@@ -71,11 +74,22 @@ class AdminController extends Controller
                 return redirect()->back();
             }
 
+          
             public function modifier_docteur($id)
-            {
-                $data = doctor::find($id);
-                return  view('admin.updatedoctor' , compact('data'));
-            }
+{
+    $data = Doctor::find($id);
+    $specialities = [
+        'Dermatologie',
+        'Psychiatrie',
+        'Radiologie',
+        'Gynécologie',
+        'Biologie Médicale',
+        'Médecine cardiovasculaire',
+        'Médecine d’urgence',
+    ];
+    return view('admin.updatedoctor', compact('data', 'specialities'));
+}
+
 
             public function editdoctor(Request $request , $id)
             {

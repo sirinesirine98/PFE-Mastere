@@ -9,17 +9,20 @@ class Doctor extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'phone', 'email', 'speciality'];
 
-public function patients()
-{
-return $this->hasMany(Patient::class);
-}
-
-    public function rooms()
+    public function agenda()
     {
-        return $this->hasMany(Room::class);
+        return $this->hasOne(Agenda::class);
     }
 
-    
-}
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class, 'admin_id');
+    }
 
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+}

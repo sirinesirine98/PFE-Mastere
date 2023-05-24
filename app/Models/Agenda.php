@@ -5,20 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Doctor extends Model
+
+
+    class Agenda extends Model
 {
-    use HasFactory;
-
-
-public function teleconsultation()
-{
-return $this->belongsTo(Teleconsultations::class);
-}
-
-
-    public function doctor()
+    
+ public function doctor()
     {
         return $this->belongsTo(Doctor::class);
     }
+
+ public function admin()
+    {
+        return $this->belongsTo(Admin::class);
+    }
+    
 }
+
 
