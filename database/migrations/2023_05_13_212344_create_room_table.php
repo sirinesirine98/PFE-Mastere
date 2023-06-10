@@ -19,7 +19,7 @@ class CreateRoomTable extends Migration
         $table->string('id_teleconsultation')->nullable();//to add relationship
         $table->string('matricule_medecin')->nullable();//to add relationship
         $table->string('consultation_id')->nullable();//to add relationship
-        $table->string('IPPP')->nullable();//to add relationship
+        $table->string('IPP')->nullable();//to add relationship
    
         $table->timestamps();
     });

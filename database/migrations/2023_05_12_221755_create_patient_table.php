@@ -19,18 +19,13 @@ class CreatePatientTable extends Migration
             $table->string('prenom')->nullable();
             $table->date('datedenaissance')->nullable();
             $table->string('ville')->nullable();
+            $table->string('email')->nullable();
             $table->string('telephone')->nullable();
             $table->string('numdossier')->nullable();
             $table->string('actions')->nullable();
-            $table->unsignedBigInteger('doctor_id')->nullable();
-$table->foreign('doctor_id')->references('id')->on('doctors')->onDelete('cascade');
-
-
-
-            $table->timestamps();
-
-
-        });
+                    $table->unsignedBigInteger('doctor_id')->nullable();
+        $table->foreign('doctor_id')->references('id')->on('doctors')->onDelete('cascade');
+             $table->timestamps();        });
 
     }
 

@@ -14,7 +14,7 @@ class CreateDemandeurRdvTable extends Migration
     public function up()
 {
     Schema::create('demandeur_rdv', function (Blueprint $table) {
-        $table->id();
+        $table->id('demandeur_id');
         $table->string('name_user')->nullable();
         $table->string('email_user')->nullable();
         $table->string('telephone_user')->nullable();
@@ -25,6 +25,7 @@ class CreateDemandeurRdvTable extends Migration
         $table->string('etat')->nullable();
         $table->unsignedBigInteger('rdv_id')->nullable();
         $table->foreign('rdv_id')->references('id')->on('appointments')->onDelete('cascade');
+     
         $table->timestamps();
     });
 }

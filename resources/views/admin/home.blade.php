@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <title>E-Consult</title>
 </head>
 <body>
@@ -13,15 +15,19 @@
             <h1>Menu</h1>
         </div>
         <ul>
-            <li><a href="#" id="lien-liste-medecin">Lister les médecins</a></li>
-            <li><a href="#" id="lien-patients">Ajouter Médecin</a></li>
-            <li><a href="#" id="lien-parametres">Lister les RDV</a></li>
+            <li><a href="#" id="ajouter-medecin" class="btn-ajouter">Ajouter Médecin</a></li>
+            <li><a href="#" id="lien-liste-medecin">Liste des médecins</a></li>
+            <li><a href="#" id="lien-liste-rdv">Liste des rendez-vous</a></li>
+            <li><a href="#" id="lien-liste-patient">Liste des patients</a></li>
+            
+
+
         </ul>
     </div>
 
     <div class="container">
         <div class="header">
-          <h1>Ma page</h1>
+          
             <div class="nav">
                 <div class="search">
                 </div>
@@ -32,82 +38,169 @@
 
         <div class="content">
             <div class="cards">
-                <h2>Hello</h2>
+                <h2 class="first-liste"></h2>
             </div>
-            <div class="content-2">
-                <div class="liste-patients">
-                    <div class="title">
-                        <h2>Liste des Médecins</h2>
-                        <a href="#" class="btn" id="afficher-medecins">Afficher</a>
-                    </div>
+          <div class="content-2">
 
-          
-                    <div class="medecins-liste" style="display: none;">
+
+     <div class="formulaire-ajout" align="center" style="padding-top:100px; display: none;">
+
+        <!-- Votre formulaire d'ajout de médecin -->
+        <form action="{{ url('upload_doctor') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div style="padding:15px;">
+                <label>Nom du docteur</label>
+                <input type="text" required="" name="name" style="color:black;" placeholder="Nom du docteur">
+            </div>
+            <div style="padding:15px;">
+                <label>Téléphone</label>
+                <input type="number" required="" name="phone" style="color:black;" placeholder="xxxx xxxx">
+            </div>
+            <div style="padding:15px;">
+                <label>Email</label>
+                <input type="text" required="" name="email" style="color:black;" placeholder="email">
+            </div>
+            <div style="padding:15px;">
+                <label>Adresse</label>
+                <input type="text" required="" name="address" style="color:black;" placeholder="Adresse">
+            </div>
+            <div style="padding:15px;">
+                <label>Spécialité</label>
+                <select style="color:black" name="speciality" required="" id="speciality">
+                    <option>--Sélectionner--</option>
+                    <option value="Dermatologie">Dermatologie</option>
+                    <option value="Psychiatrie">Psychiatrie</option>
+                    <option value="Radiologie">Radiologie</option>
+                    <option value="Gynécologie">Gynécologie</option>
+                    <option value="Biologie">Biologie Médicale</option>
+                    <option value="Cardiovasculaire">Médecine cardiovasculaire</option>
+                    <option value="Médecine d’urgence">Médecine d’urgence</option>
+                </select>
+            </div>
+            <div style="padding: 20px">
+                <label>Image</label>
+                <input type="file" required="" name="image" style="color:black;">
+            </div>
+            
+            <button type="submit" style="color:white;background-color:#3A9EEA;border:none;border-radius: 20px;width: 80px;height: 40px;" id="envoyer">Envoyer</button>
+        </form>
+    </div>
+     <div class="medecins-liste" id="tbody-medecins" style="display: none; ; margin: 20px;">
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Nom</th>
-                                    <th>Téléphone</th>
-                                    <th>Email</th>
-                                    <th>Spécialité</th>
+                                    <th>Nom du médecin</th>
+                                    <th>Téléphone du médecin</th>
+                                    <th>Email du médecin</th>
+                                    <th>Spécialité du médecin</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
                         </table>
                     </div>
-                </div>
 
-                <div id="paragraphe" style="display: none;">
-                     <table>
-                            <thead>
-                                <tr>
-                                    <th>Nom</th>
-                                    <th>Téléphone</th>
-                                    <th>Email</th>
-                                    <th>Spécialité</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                </div>
-            </div>
-        </div>
-    </div>
+   <div class="rdvs-liste" style="display: none; margin: 20px;">
+    <table>
+        <thead>
+            <tr>
+                <th>Nom du patient</th>
+                <th>Téléphone du patient</th>
+                <th>Médecin sélectionné</th>
+                <th>Date de RDV</th>
+                <th>Symptômes / Description</th>
+                <th>Status</th>
+                <th>Actions</th>
 
-    <script>
+            </tr>
+        </thead>
+        <tbody id="tbody-rdvs"></tbody>
+
+    </table>
+</div>
+
+<!-- Formulaire de confirmation -->
+<div id="formulaire-confirmation" style="display: none;">
+  <h3>Confirmation de rendez-vous</h3>
+  <!-- Ajoutez les champs nécessaires pour la confirmation du rendez-vous -->
+
+  <!-- Bouton de soumission -->
+  <button type="submit">Confirmer</button>
+</div>
+
+<div class="patients-liste" style="display: none; margin: 20px;">
+    <table>
         
-        // Récupérer les éléments HTML nécessaires
-        const medecinsListe = document.querySelector('.medecins-liste');
-        const tbody = medecinsListe.querySelector('tbody');
-        const afficherMedecinsBtn = document.getElementById('afficher-medecins');
-        const paragraphe = document.getElementById('paragraphe');
+        <tbody id="tbody-patients"></tbody>
+    </table>
+</div>
+         
+                                        
+</div>
 
-       // Fonction pour afficher le contenu de la section Liste des medecins
-function afficherMedecin() {
-    document.querySelector('.cards').style.display = 'none'; // Rendre la section "Hello" invisible
+<script>
+    // Récupérer les éléments HTML nécessaires
+    const medecinsListe = document.querySelector('.medecins-liste');
+    const firstListe = document.querySelector('.first-liste');
+    const tbodyMedecins = document.getElementById('tbody-medecins');
+    const afficherMedecinsBtn = document.getElementById('afficher-medecins');
+    const formulaireAjout = document.querySelector('.formulaire-ajout');
+    const ajouterMedecinBtn = document.getElementById('ajouter-medecin');
+    //liens des rdvs
+    const lienListeRdv = document.getElementById('lien-liste-rdv');
+    const rdvsListe = document.querySelector('.rdvs-liste');
+    const tbodyRdvs = document.getElementById('tbody-rdvs');
+  const lienListePatients = document.getElementById('lien-liste-patient');
+const patientsListe = document.querySelector('.patients-liste');
+const tbodyPatients = document.getElementById('tbody-patients');
+
+lienListePatients.addEventListener('click', ajouterPatient); // Utilisez "ajouterPatient" ici
+
+
+//event mta3 click menu lister les RDVs
+lienListeRdv.addEventListener('click', afficherRdv);
+
+    // Fonction pour afficher le contenu de la section Liste des médecins
+  function afficherMedecin() {
+    medecinsListe.style.display = 'block';
+    formulaireAjout.style.display = 'none'; // Masquer le formulaire d'ajout
+    firstListe.style.display = 'none'; // Masquer le mot teeeeeeeeest
+     rdvsListe.style.display = 'none'; //Masquer la liste des rdv
+     patientsListe.style.display = 'none'; //Masquer la liste des patients
+     
+
+
     fetch('/liste_docteur')
         .then(response => response.json())
         .then(data => {
             // Réinitialiser le contenu du tableau
-            tbody.innerHTML = '';
+            tbodyMedecins.innerHTML = '';
+
+            // Ajouter les en-têtes du tableau
+            const headerRow = document.createElement('tr');
+            headerRow.innerHTML = `
+                <th>Nom</th>
+                <th>Téléphone</th>
+                <th>Email</th>
+                <th>Spécialité</th>
+                <th>Actions</th>
+            `;
+            tbodyMedecins.appendChild(headerRow);
 
             // Parcourir les médecins et les ajouter au tableau
             data.forEach(medecin => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
+                const rowMedecin = document.createElement('tr');
+                rowMedecin.innerHTML = `
                     <td>${medecin.name}</td>
                     <td>${medecin.phone}</td>
                     <td>${medecin.email}</td>
                     <td>${medecin.speciality}</td>
+                    <td>
+            <button class="btn btn-success" onclick="modifierMedecin(${medecin.id})">Modifier</button>
+            <button class="btn btn-danger" onclick="supprimerMedecin(${medecin.id})">Supprimer</button>
+          </td>
                 `;
-                tbody.appendChild(row);
+                tbodyMedecins.appendChild(rowMedecin);
             });
-
-       
-
-            // Rendre le card visible
-            medecinsListe.style.display = 'block';
-            paragraphe.style.display = 'block';
         })
         .catch(error => {
             console.error('Une erreur s\'est produite lors de la récupération des médecins :', error);
@@ -115,10 +208,212 @@ function afficherMedecin() {
 }
 
 
-        // Ajouter un gestionnaire d'événements de clic sur le lien
-        const lienListeMedecin = document.getElementById('lien-liste-medecin');
-        lienListeMedecin.addEventListener('click', afficherMedecin);
+function liste_patients() {
+     medecinsListe.style.display = 'none';
+    formulaireAjout.style.display = 'none'; 
+    firstListe.style.display = 'none';    
+     rdvsListe.style.display = 'none';
+     patientsListe.style.display = 'block';
+     
+
+    fetch('/liste_patients')
+        .then(response => response.json())
+        .then(data => {
+            tbodyPatients.innerHTML = '';
+
+            const headerRow = document.createElement('tr');
+            headerRow.innerHTML = `
+                <th>Nom du patient</th>
+                <th>Téléphone du patient</th>
+                <th>Email du patient</th>
+                <th>Adresse du patient</th>
+            `;
+            tbodyPatients.appendChild(headerRow);
+
+            data.forEach(patient => {
+                const rowPatient = document.createElement('tr');
+                rowPatient.innerHTML = `
+                    <td>${patient.nomdenaissance}</td>
+                    <td>${patient.telephone}</td>
+                    <td>${patient.email}</td>
+                    <td>${patient.ville}</td>
+                `;
+                tbodyPatients.appendChild(rowPatient);
+            });
+        })
+        .catch(error => {
+            console.error('Une erreur s\'est produite lors de la récupération des patients :', error);
+        });
+}
+/*
+function modifierMedecin(id) {
+  fetch(`/details_docteur/${id}`)
+    .then(response => response.json())
+    .then(data => {
+      // Remplir le formulaire avec les données du médecin
+      document.getElementById('inputName').value = data.name;
+      document.getElementById('inputPhone').value = data.phone;
+      document.getElementById('inputSpeciality').value = data.speciality;
+
+      // Afficher le formulaire de modification
+      formulaireModification.style.display = 'block';
+    })
+    .catch(error => {
+      console.error('Une erreur s\'est produite lors de la récupération des détails du médecin :', error);
+    });
+}*/
+
+
+
+    // Ajouter un gestionnaire d'événements de clic sur le lien "Lister les médecins"
+    const lienListeMedecin = document.getElementById('lien-liste-medecin');
+    lienListeMedecin.addEventListener('click', afficherMedecin);
+
+    // Ajouter un gestionnaire d'événements de clic sur le bouton "Ajouter médecin"
+    ajouterMedecinBtn.addEventListener('click', function() {
+        medecinsListe.style.display = 'none';
+    formulaireAjout.style.display = 'block'; 
+    firstListe.style.display = 'none';    
+     rdvsListe.style.display = 'none';
+     patientsListe.style.display = 'none';
+     
+
+    });
+
+    // Masquer le formulaire d'ajout de médecin
+    function masquerFormulaireAjout() {
+    medecinsListe.style.display = 'none';
+    formulaireAjout.style.display = 'none'; 
+    firstListe.style.display = 'none';    
+     rdvsListe.style.display = 'none';
+     patientsListe.style.display = 'none';
+    }
+
+    // Ajouter un gestionnaire d'événements de clic sur le lien "Lister les médecins" dans le formulaire d'ajout
+    const lienListeMedecinFormulaire = document.getElementById('lien-liste-medecin-formulaire');
+    lienListeMedecinFormulaire.addEventListener('click', function() {
+        masquerFormulaireAjout();
+        afficherMedecin();
+    });
+
+
+
+// Fonction pour afficher le contenu de la section Liste des RDV
+function afficherRdv() {
+  rdvsListe.style.display = 'block';
+  medecinsListe.style.display = 'none'; // Masquer la liste des médecins
+  formulaireAjout.style.display = 'none'; // Masquer le formulaire d'ajout de médecin
+  firstListe.style.display = 'none'; // Masquer le mot teeeeeeeeest
+  patientsListe.style.display = 'none'; //Masquer la liste des patients
+
+
+  fetch('/liste_rdv')
+    .then(response => response.json())
+    .then(data => {
+      // Réinitialiser le contenu du tableau
+      tbodyRdvs.innerHTML = '';
+
+      // Parcourir les rendez-vous et les ajouter au tableau
+      data.forEach(rendezvousItem => {
+        const rowRdv = document.createElement('tr');
+        rowRdv.innerHTML = `
+          <td>${rendezvousItem.name}</td>
+          <td>${rendezvousItem.phone}</td>
+          <td>${rendezvousItem.doctor}</td>
+          <td>${rendezvousItem.date}</td>
+          <td>${rendezvousItem.message}</td>
+          <td>${rendezvousItem.status}</td>
+         <td>
+            <button class="btn btn-success" onclick="confirmerRdv(${rendezvousItem.id})">Confirmer</button>
+            <button class="btn btn-danger" onclick="supprimerRdv(${rendezvousItem.id})">Supprimer</button>
+          </td>
+        `;
+        tbodyRdvs.appendChild(rowRdv);
+      });
+    })
+    .catch(error => {
+      console.error('Une erreur s\'est produite lors de la récupération des RDV :', error);
+    });
+}
+
+function confirmerRdv(idRdv) {
+  fetch(`/appointment/approve/${idRdv}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      alert('Voulez vous approuvé le Rendez-vous !');
+      afficherRdv(); // Actualiser la liste des rendez-vous
+    } else {
+      alert('Une erreur s\'est produite lors de l\'approbation du rendez-vous.');
+    }
+  })
+  .catch(error => {
+    console.error('Une erreur s\'est produite lors de l\'approbation du rendez-vous :', error);
+  });
+}
+
+
+
+function ajouterPatient() {
+  fetch('/listePatientsApprouves')
+    .then(response => response.json())
+    .then(data => {
+      // Réinitialiser le contenu de la liste des patients
+      listePatients.innerHTML = '';
+
+      // Créer le tableau
+      const table = document.createElement('table');
+
+      // Créer l'en-tête du tableau
+      const thead = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      headerRow.innerHTML = `
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Date de naissance</th>
+        <th>Ville</th>
+        <th>Email</th>
+        <th>Téléphone</th>
+      `;
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      // Créer le corps du tableau
+      const tbody = document.createElement('tbody');
+
+      // Parcourir les patients et les ajouter au tableau
+      data.forEach(patient => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${patient.nomdenaissance}</td>
+          <td>${patient.prenom}</td>
+          <td>${patient.datedenaissance}</td>
+          <td>${patient.ville}</td>
+          <td>${patient.email}</td>
+          <td>${patient.telephone}</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      table.appendChild(tbody);
+
+      // Ajouter le tableau à la liste des patients
+      listePatients.appendChild(table);
+    })
+    .catch(error => {
+      console.error('Une erreur s\'est produite lors de la récupération des patients :', error);
+    });
+}
+
+
     </script>
+
    
 
 <style>
@@ -164,7 +459,7 @@ h3 {
     border-bottom: 2px solid #999;
 }
 table {
-    padding: 10px;
+    padding: 30px;
 }
 th,
 td {
@@ -305,19 +600,7 @@ td {
     display: none;
     flex-direction: column;
 }
-.container .content .content-2 .historique {
-    flex: 2;
-    background: white;
-    min-height: 50vh;
-    margin: 0 25px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    display: flex;
-    flex-direction: column;
-}
-.container .content .content-2 .historique table td:nth-child(1) img {
-    height: 40px;
-    width: 40px;
-}
+
 @media screen and (max-width: 1050px) {
     .side-menu li {
         font-size: 18px;

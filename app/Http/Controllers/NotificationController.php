@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Notifications\OffersNotification;
+use App\Notifications\AppointmentRequestNotification;
 use Notification;
 
 class NotificationController extends Controller
@@ -22,7 +22,7 @@ class NotificationController extends Controller
 
         ];
 
-    Notification::send($user, new OffersNotification($offerData));
+    Notification::send($user, new AppointmentRequestNotification($offerData));
     dd('Task is completed !');
 
     }

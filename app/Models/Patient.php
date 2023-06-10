@@ -8,7 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 class Patient extends Model
 {
     protected $primaryKey = 'IPP';
+    protected $table = 'patient';
 
+     protected $fillable = [
+        'nomdenaissance',
+        'prenom',
+        'datedenaissance',
+        'ville',
+        'telephone',
+        'numdossier',
+        'actions',
+        'doctor_id',
+        // Ajoutez ici les attributs correspondant aux champs supplémentaires du formulaire de rendez-vous
+    ];
+
+     public function doctor()
+    {
+        return $this->belongsTo(Doctor::class, 'doctor_id');
+    }
+    
     public function notifications()
     {
         return $this->morphMany(Notification::class, 'notifiable');
@@ -38,6 +56,19 @@ class Patient extends Model
     {
         return $this->hasMany(Message::class);
     }
+
+    public function appointments()
+{
+    return $this->hasMany(Appointment::class);
+}
+
+
+
+public function demandeurRdv()
+{
+    return $this->belongsTo(DemandeurRdv::class, 'demandeur_id');
+}
+
 
 }
 

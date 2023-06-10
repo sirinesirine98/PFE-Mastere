@@ -38,17 +38,34 @@ Route::get('/add_doctor_view', [AdminController::class ,'addview']);
 Route::post('/upload_doctor', [AdminController::class , 'upload']);
 
 
-Route::post('/appointment', [HomeController::class , 'appointment']);
+Route::post('/appointment', [HomeController::class , 'submitAppointment']);
+//Route::post('/appointmentApproved', [HomeController::class , 'appointmentApproved']);
+
 Route::get('/myappointment', [HomeController::class , 'myappointment']);
 Route::get('/cancel_appointment/{id}', [HomeController::class , 'cancel_appointment']);
 Route::get('/liste_rdv', [AdminController::class , 'liste_rdv']);
-Route::get('/Approved/{id}', [AdminController::class , 'Approved']);
-Route::get('/canceled/{id}', [AdminController::class , 'canceled']);
 
+//Route::get('/Approved/{id}', [AdminController::class , 'Approved']);
+Route::post('/appointment/approve/{id}', [AdminController::class , 'approve']);
+Route::delete('/appointment/delete/{id}', [AdminController::class , 'delete']);
+
+//Route::get('/canceled/{id}', [AdminController::class , 'canceled']);
+
+
+Route::get('/liste_patients', [AdminController::class, 'liste_patients']);
+
+Route::get('/details_docteur/{id}', 'AdminController@details_docteur');
+
+
+Route::get('/listePatientsApprouves', [AdminController::class, 'listePatientsApprouves']);
+
+Route::get('/listeConsultations', [AdminController::class, 'listeConsultations']);
 
 //Route::get('/liste_docteur', [AdminController::class , 'liste_docteur']);
 
 Route::get('/liste_docteur', [AdminController::class, 'liste_docteur'])->name('liste_docteur');
+Route::post('/ajouter_medecin', [AdminController::class, 'ajouter_medecin'])->name('ajouter_medecin');
+
 
 Route::get('/supprimer_docteur/{id}', [AdminController::class , 'supprimer_docteur']);
 Route::get('/modifier_docteur/{id}', [AdminController::class , 'modifier_docteur']);
@@ -62,8 +79,9 @@ Route::get('/mydocs',function(){
     });
 
 
-Route::get('/rdv', [HomeController::class , 'rdv_view'])->name('rdv');
+//Route::get('/rdv', [HomeController::class , 'rdv_view'])->name('rdv');
 
 
 //Route::get('/priserdv', [HomeController::class, 'showAppoinForm'])->name('priserdv');
-Route::get('notification',[NotificationController::class , 'sendNotification']);
+//Route::get('notification',[NotificationController::class , 'sendNotification']);
+Route::get('/test-notification', [NotificationController::class, 'sendNotification']);

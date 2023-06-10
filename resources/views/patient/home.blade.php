@@ -17,7 +17,6 @@
               <li><a href="#" id="lien-rendezvous">Liste des rendez-vous</a></li>
               <li><a href="#" id="lien-notification">Notifications</a></li>
               <li><a href="#" id="lien-files">Fichiers paratgées</a></li>
-              <li><a href="#" id="lien-cro">Comptes rendus</a></li>
 
          
         </ul>
@@ -30,7 +29,6 @@
                 <div class="search">
                     <input type="text" placeholder="Search.." >
                     <button type="submit">
-                        <img src="{{ asset('public/assets/img/search.png') }}">
 
                     </button>
                 </div>   
@@ -45,96 +43,12 @@
         </div>
         <div class="content">
             <div class="cards">
-                <div class="card">
-                    <div class="box">
-                        <h1>test</h1>
-                        <h3>test</h3>
-                    </div>
-                    <div class="icon-case">
-                        <img src=" " alt="">
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="box">
-                        <h1>test</h1>
-                        <h3>test</h3>
-                    </div>
-                    <div class="icon-case">
-                        <img src=" " alt="">
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="box">
-                        <h1>test</h1>
-                        <h3>test</h3>
-                    </div>
-                    <div class="icon-case">
-                        <img src=" " alt="">
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="box">
-                        <h1>test</h1>
-                        <h3>test</h3>
-                    </div>
-                    <div class="icon-case">
-                        <img src=" " alt="">
-                    </div>
-                </div>
+                
+               
                 
             </div>
             <div class="content-2">
-                <div class="recent-payments">
-                    <div class="title">
-                        <h2>Accueil</h2>
-                        <a href="#" class="btn">View All</a>
-                    </div>
-                    <table>
-                        <tr>
-                            <th>test</th>
-                            <th>test</th>
-                            <th>test</th>
-                            <th>Option</th>
-                        </tr>
-                        <tr>
-                            <td>aa</td>
-                            <td>aa</td>
-                             <td>aa</td>
-                            <td><a href="#" class="btn">View</a></td>
-                        </tr>
-                        <tr>
-                             <td>aa</td> <td>aa</td> <td>aa</td>
-                            <td><a href="#" class="btn">View</a></td>
-                        </tr>
-                       
-                       
-                    </table>
-                </div>
-                <div class="new-students">
-                    <div class="title">
-                        <h2>History</h2>
-                        <a href="#" class="btn">View</a>
-                    </div>
-                    <table>
-                        <tr>
-                            <th>Profile</th>
-                            <th>Name</th>
-                            <th>option</th>
-                        </tr>
-                        <tr>
-                            <td><img src="user.png" alt=""></td>
-                            <td>aa</td>
-                            <td><img src="info.png" alt=""></td>
-                        </tr>
-                        <tr>
-                            <td><img src="user.png" alt=""></td>
-                            <td>aa</td>
-                            <td><img src="info.png" alt=""></td>
-                        
-                        
-                        </tr>
-                    </table>
-                </div>
+               
             </div>
         </div>
     </div>
@@ -145,7 +59,6 @@
 const lienrendezvous = document.getElementById('lien-rendezvous');
 const liennotification = document.getElementById('lien-notification');
 const lienfiles = document.getElementById('lien-files');
-const liencro = document.getElementById('lien-cro');
 
 const contenu = document.querySelector('.content');
 
@@ -153,25 +66,60 @@ const contenu = document.querySelector('.content');
 lienrendezvous.addEventListener('click', afficherRendezVous);
 liennotification.addEventListener('click', afficherNotifications);
 lienfiles.addEventListener('click', afficherFiles);
-liencro.addEventListener('click', afficherCRO);
 
 // Fonction pour afficher le contenu de la section Rendez-vous
 function afficherRendezVous() {
   contenu.innerHTML = `
-     
-   <div class="content">
-            <div class="cards"></div>
-            <div class="content-2">
-                <div class="liste-patients">
-                    <div class="title">
-                        <h2>Les Rendez-Vous</h2>
-                    </div>
-                  
-                </div>
-           </div>
+    <div class="content">
+      <div class="cards"></div>
+      <div class="content-2">
+        <div class="liste-patients">
+          <div class="title">
+            <h2>Les Rendez-Vous</h2>
+          </div>
+          <table id="liste-rendezvous">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Date</th>
+                <th>Médecin</th>
+                <th>Message</th>
+                <th>Status</th>
+                <th>États</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
-  
+      </div>
+    </div>
   `;
+
+  const listeRendezvous = document.querySelector('#liste-rendezvous tbody');
+
+  // Effectuer une requête Fetch vers l'API pour récupérer les rendez-vous
+  fetch('/liste_rdv_patient')
+    .then(response => response.json())
+    .then(rendezvous => {
+      // Afficher les rendez-vous dans la liste
+      rendezvous.forEach(rendezvousItem => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${rendezvousItem.name}</td>
+          <td>${rendezvousItem.email}</td>
+          <td>${rendezvousItem.date}</td>
+          <td>${rendezvousItem.doctor}</td>
+          <td>${rendezvousItem.message}</td>
+          <td>${rendezvousItem.status}</td>
+          <td>${rendezvousItem.etat}</td>
+        `;
+        listeRendezvous.appendChild(tr);
+      });
+    })
+    .catch(error => {
+      console.error('Erreur lors de la récupération des rendez-vous:', error);
+    });
 }
 
 // Fonction pour afficher le contenu de la section Notifications
@@ -204,26 +152,6 @@ function afficherFiles() {
                 <div class="liste-patients">
                     <div class="title">
                         <h2>Les Fichiers Partagées</h2>
-                      
-                    </div>
-                  
-                </div>
-           </div>
-        </div>
-  
-  `;
-}
-
-// Fonction pour afficher le contenu de la section Comptes rendus
-function afficherCRO() {
-  contenu.innerHTML = `
-     
-   <div class="content">
-            <div class="cards"></div>
-            <div class="content-2">
-                <div class="liste-patients">
-                    <div class="title">
-                        <h2>Les CRO </h2>
                       
                     </div>
                   
