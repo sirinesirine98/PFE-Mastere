@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Appointment Approved</title>
+    <title>Rendez-vous approuvé</title>
 </head>
 <body>
-    <h1>Your appointment has been approved!</h1>
-    <p>Dear {{ $name }},</p>
-    <p>Your appointment request has been approved. Please find the details below:</p>
-    <ul>
-        <li>Date: {{ $date }}</li>
-        <li>Doctor: {{ $doctor }}</li>
-        <!-- Include any other appointment details you want to display -->
-    </ul>
-    <p>Thank you for choosing our services.</p>
+    <h1>Rendez-vous approuvé</h1>
+    <p>
+        <h1>
+            tu passe le variable + msg 
+        </h1>
+    </p>
 </body>
 </html>

@@ -11,18 +11,18 @@ class CreateFichierMessageTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('fichier_message', function (Blueprint $table) {
-            $table->id('id_msg');
-            $table->date('date_teleconsultation');
-            $table->time('heure_teleconsultation');
-           $table->unsignedBigInteger('patient_id')->nullable();
-$table->foreign('patient_id')->references('IPP')->on('patient')->onDelete('cascade');
+   public function up()
+{
+    Schema::create('fichier_message', function (Blueprint $table) {
+        $table->id('id_msg');
+        $table->date('date_teleconsultation');
+        $table->time('heure_teleconsultation');
+        $table->unsignedBigInteger('patient_id')->nullable();
+        $table->foreign('patient_id')->references('IPP')->on('patients')->onDelete('cascade');
+        $table->timestamps();
+    });
+}
 
-            $table->timestamps();
-        });
-    }
 
     /**
      * Reverse the migrations.

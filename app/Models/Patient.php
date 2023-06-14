@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Patient extends Model
 {
     protected $primaryKey = 'IPP';
-    protected $table = 'patient';
+    //protected $table = 'patient';
 
      protected $fillable = [
         'nomdenaissance',

@@ -62,25 +62,7 @@ public function liste_patients()
 }
 
 
-     public function Approved($id)
-{
-    $data = Appointment::find($id);
-    if ($data) {
-        $data->status = 'Approved';
-        $data->save();
-
-        // Ajouter le demandeur de rendez-vous à la table "patients"
-        $patient = new Patient;
-        $patient->nomdenaissance = $data->name;
-        // Ajoutez d'autres champs du formulaire rempli ici
-        $patient->save();
-
-        return redirect()->back()->with('message', 'Rendez-vous approuvé avec succès !');
-    } else {
-        return redirect()->back()->with('error', 'Rendez-vous non trouvé.');
-    }
-}
-
+  
  public function listePatientsApprouves(): JsonResponse
     {
         $patients = Patient::whereHas('appointments', function ($query) {
@@ -139,17 +121,17 @@ public function delete($id)
                 return redirect()->back();
             }
 
-
-           public function editdoctor(Request $request, $id)
+public function getMedecin($id)
 {
-    $doctor = Doctor::find($id);
-    $doctor->name = $request->name;
-    $doctor->phone = $request->phone;
-    $doctor->speciality = $request->speciality;
-    $doctor->save();
+    $medecin = Medecin::find($id);
 
-    return redirect()->back()->with('message', 'Médecin modifié avec succès !');
+    if (!$medecin) {
+        return response()->json(['error' => 'Médecin non trouvé'], 404);
+    }
+
+    return response()->json($medecin);
 }
+
 
 public function details_docteur($id)
 {
@@ -157,6 +139,22 @@ public function details_docteur($id)
     return response()->json($doctor);
 }
 
+public function agenda(Request $request)
+    {
+        // Récupérer l'ID du médecin connecté
+        $doctorId = $request->user()->id;
+        
+        // Récupérer la date sélectionnée (par défaut, la date d'aujourd'hui)
+        $date = $request->input('date', date('Y-m-d'));
+
+        // Récupérer les rendez-vous du médecin pour la date spécifiée
+        $rendezvous = RendezVous::where('doctor_id', $doctorId)
+            ->whereDate('date', $date)
+            ->orderBy('date')
+            ->get();
+
+        return view('doctor.agenda', compact('rendezvous', 'date'));
+    }
          
           
 }

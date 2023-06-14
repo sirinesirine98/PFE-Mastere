@@ -39,14 +39,14 @@ Route::post('/upload_doctor', [AdminController::class , 'upload']);
 
 
 Route::post('/appointment', [HomeController::class , 'submitAppointment']);
-//Route::post('/appointmentApproved', [HomeController::class , 'appointmentApproved']);
+Route::post('/appointment/approve/{id}', [HomeController::class, 'appointmentApproved'])->name('appointment.approve');
 
 Route::get('/myappointment', [HomeController::class , 'myappointment']);
 Route::get('/cancel_appointment/{id}', [HomeController::class , 'cancel_appointment']);
 Route::get('/liste_rdv', [AdminController::class , 'liste_rdv']);
 
 //Route::get('/Approved/{id}', [AdminController::class , 'Approved']);
-Route::post('/appointment/approve/{id}', [AdminController::class , 'approve']);
+//Route::post('/appointment/approve/{id}', [AdminController::class , 'approve']);
 Route::delete('/appointment/delete/{id}', [AdminController::class , 'delete']);
 
 //Route::get('/canceled/{id}', [AdminController::class , 'canceled']);
@@ -68,7 +68,8 @@ Route::post('/ajouter_medecin', [AdminController::class, 'ajouter_medecin'])->na
 
 
 Route::get('/supprimer_docteur/{id}', [AdminController::class , 'supprimer_docteur']);
-Route::get('/modifier_docteur/{id}', [AdminController::class , 'modifier_docteur']);
+//Route::get('/modifier_docteur/{id}', [AdminController::class , 'modifier_docteur']);
+Route::get('/medecin/{id}', 'AdminController@getMedecin');
 
 
 Route::post('/editdoctor/{id}', [AdminController::class , 'editdoctor']);
@@ -85,3 +86,6 @@ Route::get('/mydocs',function(){
 //Route::get('/priserdv', [HomeController::class, 'showAppoinForm'])->name('priserdv');
 //Route::get('notification',[NotificationController::class , 'sendNotification']);
 Route::get('/test-notification', [NotificationController::class, 'sendNotification']);
+
+
+Route::get('/agenda', 'AdminController@agenda')->name('doctor.agenda');

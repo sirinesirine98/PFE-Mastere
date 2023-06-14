@@ -21,6 +21,8 @@
   <li><a href="#" id="lien-consultations">Liste des Consultations</a></li>
   <li><a href="#" id="lien-compte-rendu">Liste des Comptes rendus</a></li>
   <li><a href="#" id="lien-parametres">Paramètres</a></li>
+  <li><a href="#" id="lien-agenda">Agenda</a></li>
+
 </ul>
 
     </div>
@@ -105,6 +107,33 @@
                         </tr>
                     </table>
                 </div>
+                  <div class="agenda">
+                    <div class="title">
+                        <h2>Agenda</h2>
+                        <a href="#" class="btn">Afficher</a>
+                    </div>
+                    <table>
+                        <tr>
+                            <th>Date</th>
+                            <th>Événement</th>
+                            <th>Lieu</th>
+                            <th>Options</th>
+                        </tr>
+                        <tr>
+                            <td>2023-06-12</td>
+                            <td>Rendez-vous médical</td>
+                            <td>Cabinet du Dr. Smith</td>
+                            <td><a href="#" class="btn">Modifier</a></td>
+                        </tr>
+                        <tr>
+                            <td>2023-06-15</td>
+                            <td>Réunion d'équipe</td>
+                            <td>Salle de conférence</td>
+                            <td><a href="#" class="btn">Modifier</a></td>
+                        </tr>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>
@@ -115,6 +144,7 @@ const lienPatients = document.getElementById('lien-patients');
 const lienParametres = document.getElementById('lien-parametres');
 const lienConsultations = document.getElementById('lien-consultations');
 const lienComptesRendu = document.getElementById('lien-compte-rendu');
+const lienAgenda = document.getElementById('lien-agenda');
 const contenu = document.querySelector('.content');
 
 
@@ -124,6 +154,7 @@ lienPatients.addEventListener('click', afficherPatients);
 lienParametres.addEventListener('click', afficherParametres);
 lienComptesRendu.addEventListener('click', afficherComptesRendus);
 lienConsultations.addEventListener('click', afficherConsultation);
+lienAgenda.addEventListener('click', afficherAgenda);
 
 // Fonction pour afficher le contenu de la section Rendez-vous
 function afficherRendezVous() {
@@ -181,6 +212,96 @@ function afficherRendezVous() {
     .catch(error => {
       console.error('Erreur lors de la récupération des rendez-vous:', error);
     });
+
+
+
+    // Fonction pour afficher une notification
+function afficherNotification(titre, message) {
+  // Vérifier si les notifications sont prises en charge par le navigateur
+  if (!("Notification" in window)) {
+    console.log("Les notifications ne sont pas prises en charge par votre navigateur.");
+    return;
+  }
+
+  // Vérifier le statut de permission pour les notifications
+  if (Notification.permission === "granted") {
+    // Créer une nouvelle notification
+    new Notification(titre, { body: message });
+  } else if (Notification.permission !== "denied") {
+    // Demander la permission d'afficher des notifications
+    Notification.requestPermission().then(function (permission) {
+      if (permission === "granted") {
+        // Créer une nouvelle notification
+        new Notification(titre, { body: message });
+      }
+    });
+  }
+}
+
+// Fonction pour obtenir les rendez-vous du lendemain et afficher une notification
+function rappelerRendezVous() {
+  // Obtenir la date du lendemain
+  const dateLendemain = new Date();
+  dateLendemain.setDate(dateLendemain.getDate() + 1);
+  const jourLendemain = dateLendemain.toISOString().split("T")[0];
+
+  // Effectuer une requête Fetch vers l'API pour récupérer les rendez-vous du lendemain
+  fetch(`/rendezvous?date=${jourLendemain}`)
+    .then((response) => response.json())
+    .then((rendezvous) => {
+      if (rendezvous.length > 0) {
+        // Construire le message de la notification avec les rendez-vous
+        let message = "Rendez-vous du lendemain :\n";
+        rendezvous.forEach((rdv) => {
+          message += `- ${rdv.nomPatient} à ${rdv.heure}\n`;
+        });
+
+        // Afficher la notification
+        afficherNotification("Rappel de rendez-vous", message);
+      }
+    })
+    .catch((error) => {
+      console.error("Erreur lors de la récupération des rendez-vous :", error);
+    });
+}
+
+// Planifier l'exécution de la fonction de rappel chaque jour à minuit
+function planifierRappelQuotidien() {
+  // Obtenir la date et l'heure actuelles
+  const maintenant = new Date();
+  const millisecondsParJour = 24 * 60 * 60 * 1000;
+
+  // Calculer le délai jusqu'à minuit
+  const delai = millisecondsParJour - (maintenant % millisecondsParJour);
+
+  // Planifier l'exécution de la fonction de rappel à minuit
+  setTimeout(function () {
+    rappelerRendezVous();
+
+    // Planifier le prochain rappel quotidien
+    planifierRappelQuotidien();
+  }, delai);
+}
+
+// Vérifier si le navigateur supporte les notifications
+if (!("Notification" in window)) {
+  console.log("Les notifications ne sont pas prises en charge par votre navigateur.");
+} else {
+  // Vérifier la permission pour les notifications
+  if (Notification.permission === "granted") {
+    // Planifier le rappel quotidien
+    planifierRappelQuotidien();
+  } else if (Notification.permission !== "denied") {
+    // Demander la permission d'afficher des notifications
+    Notification.requestPermission().then(function (permission) {
+      if (permission === "granted") {
+        // Planifier le rappel quotidien
+        planifierRappelQuotidien();
+      }
+    });
+  }
+}
+
 }
 // Fonction pour afficher le contenu de la section Patients
 function afficherPatients() {
@@ -383,6 +504,55 @@ function afficherComptesRendus() {
     </div>
   `;
 }
+
+ // Fonction pour afficher le contenu de la section Agenda
+        function afficherAgenda() {
+            contenu.innerHTML = `
+                <div class="content">
+                    <div class="cards"></div>
+                    <div class="content-2">
+                        <div class="agenda">
+                            <div class="title">
+                                <h2>Agenda</h2>
+                            </div>
+                            <table id="liste-agenda">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Événement</th>
+                                        <th>Lieu</th>
+                                        <th>Options</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const listeAgenda = document.querySelector('#liste-agenda tbody');
+
+            // Effectuer une requête Fetch vers l'API pour récupérer les événements de l'agenda
+            fetch('/liste_agenda')
+                .then(response => response.json())
+                .then(agenda => {
+                    // Afficher les événements dans la liste de l'agenda
+                    agenda.forEach(event => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${event.date}</td>
+                            <td>${event.event}</td>
+                            <td>${event.location}</td>
+                            <td><a href="#" class="btn">Modifier</a></td>
+                        `;
+                        listeAgenda.appendChild(tr);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération de l\'agenda:', error);
+                });
+        }
     </script>
 </body>
 </html>

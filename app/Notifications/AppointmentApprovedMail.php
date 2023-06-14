@@ -6,28 +6,22 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class AppointmentApproved extends Mailable
+class AppointmentApprovedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $name;
-    public $date;
-    public $doctor;
+    public $message;
 
     /**
      * Create a new message instance.
      *
-     * @param string $name
-     * @param string $date
+     * @param string $message
      * @return void
      */
-    public function __construct($name, $date , $doctor)
+    public function __construct($message)
     {
-        $this->name = $name;
-        $this->date = $date;
-        $this->doctor = $doctor;
+        $this->message = $message;
     }
-
 
     /**
      * Build the message.
@@ -36,8 +30,7 @@ class AppointmentApproved extends Mailable
      */
     public function build()
     {
-        return $this->subject('Appointment Approved')
-            ->view('emails.appointment.approved');
-          
+        return $this->subject('Rendez-vous approuvé')
+                    ->view('emails.appointment_approved');
     }
 }

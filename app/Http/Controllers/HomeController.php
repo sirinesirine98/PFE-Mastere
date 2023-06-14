@@ -11,8 +11,12 @@ use App\Models\DemandeurRdv;
 use App\Models\Documents;
 use App\Http\Requests\ArRequest;
 use Illuminate\Support\Facades\Validator;
-use App\Mail\AppointmentApproved;
+//use App\Mail\AppointmentApproved;
 use Illuminate\Support\Facades\Mail;
+use App\Events\AppointmentApproved;
+use Illuminate\Support\Facades\Log;
+
+
 
 class HomeController extends Controller
 {
@@ -115,125 +119,45 @@ public function submitAppointment(Request $request) {
     $demandeurRdv->etat = $request->etat;
     $demandeurRdv->save();
 
-    Mail::to($validatedData['email']) 
-    ->send(new submitAppointment());
+
 
     return redirect()->back()->with('message','Rendez-vous ajouté avec succès ! ');
 
 }
-public function appointmentApproved(Request $request)
-{
-     $validatedData = $request->validate([
-        'name' => 'required',
-        'email' => 'required|email',
-        'phone' => 'required',
-        'departement' => 'required',
-        'date' => 'required|date',
-        'heure' => 'required',
-        'etat' => 'required',
-        'message' => 'required',
-    ]);
 
-     
-   if ($appointment->status === 'Approved') {
-        try {
-            $patient = new Patient;
-            $patient->nomdenaissance = $validatedData['name'];
-            $patient->email = $validatedData['email'];
-            $patient->telephone = $validatedData['phone'];
-            // Assurez-vous que les clés existent dans le tableau $validatedData avant de les utiliser
-            if (isset($validatedData['prenom'])) {
-                $patient->prenom = $validatedData['prenom'];
-            }
-            if (isset($validatedData['datedenaissance'])) {
-                $patient->datedenaissance = $validatedData['datedenaissance'];
-            }
-            if (isset($validatedData['ville'])) {
-                $patient->ville = $validatedData['ville'];
-            }
-            if (isset($validatedData['numdossier'])) {
-                $patient->numdossier = $validatedData['numdossier'];
-            }
-            $patient->save();
-        } catch (\Exception $e) {
-            // Afficher l'erreur
-            dd($e->getMessage());
-        }
-    }
-  Mail::to($validatedData['email']) 
-    ->send(new appointmentApproved());
-   return redirect()->back()->with('message','Rendez-vous ajouté avec succès ! Vérifier votre boite Email  :)');
+
+public function appointmentApproved(Request $request, $id)
+{
+    
+    
+   $data = Appointment::find($id);
+   /* if ($data ) {
+        $data->status = 'Approved';
+        $data->save();
+
+      $patient = new Patient;
+        $patient->nomdenaissance = $data->name;
+        $patient->prenom = $data->name;
+        $patient->datedenaissance = $data->date;
+        $patient->ville = $data->name;
+        $patient->email = $data ->email;
+        $patient->telephone = $data->phone;
+        
+        if ( $patient->save() ) */
+
+        $msg = "Test email";
+        $email = $data->email ;
+            Mail::send(
+                        'emails.appointment.approved',
+                        ['message' => $msg],
+                        function ($message) use ($email) {
+                            $message->to($email)->subject('Access code');
+                        }
+                    );
+                            return redirect()->back()->with('message', 'Rendez-vous ajouté avec succès ! Vérifiez votre boîte e-mail :)');
+        
 
 }
-
-/*
-public function appointment(Request $request)
-{
-    $validatedData = $request->validate([
-        'name' => 'required',
-        'email' => 'required|email',
-        'phone' => 'required',
-        'departement' => 'required',
-        'date' => 'required|date',
-        'heure' => 'required',
-        'etat' => 'required',
-        'message' => 'required',
-    ]);
-
-    $appointment = new Appointment;
-    $appointment->name = $validatedData['name'];
-    $appointment->email = $validatedData['email'];
-    $appointment->phone = $validatedData['phone'];
-    $appointment->doctor = $validatedData['departement'];
-    $appointment->date = $validatedData['date'];
-    $appointment->message = $validatedData['message'];
-    $appointment->status = 'En cours';
-    $appointment->etat = $validatedData['etat'];
-    $appointment->save();
-
-    $demandeurRdv = new DemandeurRdv;
-    $demandeurRdv->name_user =$request -> name_user;
-    $demandeurRdv->email_user = $request->email;
-    $demandeurRdv->telephone_user = $request->number;
-    $demandeurRdv->nom_medecin = $request->name ;
-    $demandeurRdv->date_rdv = $request->date;
-    $demandeurRdv->heure_rdv = $request->time;
-    $demandeurRdv->message = $request->message;
-    $demandeurRdv->etat = $request->etat;
-    $demandeurRdv->save();
-
-   
-   if ($appointment->status === 'Approved') {
-        try {
-            $patient = new Patient;
-            $patient->nomdenaissance = $validatedData['name'];
-            $patient->email = $validatedData['email'];
-            $patient->telephone = $validatedData['phone'];
-            // Assurez-vous que les clés existent dans le tableau $validatedData avant de les utiliser
-            if (isset($validatedData['prenom'])) {
-                $patient->prenom = $validatedData['prenom'];
-            }
-            if (isset($validatedData['datedenaissance'])) {
-                $patient->datedenaissance = $validatedData['datedenaissance'];
-            }
-            if (isset($validatedData['ville'])) {
-                $patient->ville = $validatedData['ville'];
-            }
-            if (isset($validatedData['numdossier'])) {
-                $patient->numdossier = $validatedData['numdossier'];
-            }
-            $patient->save();
-        } catch (\Exception $e) {
-            // Afficher l'erreur
-            dd($e->getMessage());
-        }
-    }
-
-    return redirect()->back()->with('message','Rendez-vous ajouté avec succès ! Vérifier votre boite Email pour avoir la réponse de votre demande :)');
-}*/
-
-
-
 
     public function myappointment()
     {

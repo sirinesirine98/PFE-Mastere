@@ -245,23 +245,25 @@ function liste_patients() {
             console.error('Une erreur s\'est produite lors de la récupération des patients :', error);
         });
 }
-/*
-function modifierMedecin(id) {
-  fetch(`/details_docteur/${id}`)
-    .then(response => response.json())
-    .then(data => {
-      // Remplir le formulaire avec les données du médecin
-      document.getElementById('inputName').value = data.name;
-      document.getElementById('inputPhone').value = data.phone;
-      document.getElementById('inputSpeciality').value = data.speciality;
 
-      // Afficher le formulaire de modification
-      formulaireModification.style.display = 'block';
-    })
-    .catch(error => {
-      console.error('Une erreur s\'est produite lors de la récupération des détails du médecin :', error);
-    });
-}*/
+
+function modifierMedecin(id) {
+    fetch(`/medecin/${id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur lors de la récupération du médecin');
+            }
+            return response.json();
+        })
+        .then(medecin => {
+            // Utilisez les données du médecin pour afficher ou mettre à jour le formulaire
+            console.log(medecin);
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération du médecin:', error);
+        });
+}
+
 
 
 
