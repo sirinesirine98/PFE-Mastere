@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Events\AppointmentApproved;
 use Illuminate\Support\Facades\Log;
-
+use Symfony\Component\HttpFoundation\Response;
 
 
 class HomeController extends Controller
@@ -131,7 +131,7 @@ public function appointmentApproved(Request $request, $id)
     
     
    $data = Appointment::find($id);
-   /* if ($data ) {
+ if ($data ) {
         $data->status = 'Approved';
         $data->save();
 
@@ -142,21 +142,15 @@ public function appointmentApproved(Request $request, $id)
         $patient->ville = $data->name;
         $patient->email = $data ->email;
         $patient->telephone = $data->phone;
-        
-        if ( $patient->save() ) */
+        $patient->save() ;
 
-        $msg = "Test email";
-        $email = $data->email ;
-            Mail::send(
-                        'emails.appointment.approved',
-                        ['message' => $msg],
-                        function ($message) use ($email) {
-                            $message->to($email)->subject('Access code');
-                        }
-                    );
-                            return redirect()->back()->with('message', 'Rendez-vous ajouté avec succès ! Vérifiez votre boîte e-mail :)');
+        return response([
+            "success" => true
+        ], 200);
+          //return redirect()->back()->with('message', 'Rendez-vous ajouté avec succès ! Vérifiez votre boîte e-mail :)');
         
 
+}
 }
 
     public function myappointment()

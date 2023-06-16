@@ -55,11 +55,14 @@ public function liste_rdv_patient()
 }
 
 
-public function liste_patients()
+
+         public function liste_patients()
 {
     $patients = Patient::all();
+    
     return response()->json($patients);
 }
+
 
 
   
@@ -121,7 +124,7 @@ public function delete($id)
                 return redirect()->back();
             }
 
-public function getMedecin($id)
+/*public function getMedecin($id)
 {
     $medecin = Medecin::find($id);
 
@@ -130,7 +133,7 @@ public function getMedecin($id)
     }
 
     return response()->json($medecin);
-}
+}*/
 
 
 public function details_docteur($id)
@@ -139,22 +142,22 @@ public function details_docteur($id)
     return response()->json($doctor);
 }
 
-public function agenda(Request $request)
-    {
-        // Récupérer l'ID du médecin connecté
-        $doctorId = $request->user()->id;
-        
-        // Récupérer la date sélectionnée (par défaut, la date d'aujourd'hui)
-        $date = $request->input('date', date('Y-m-d'));
 
-        // Récupérer les rendez-vous du médecin pour la date spécifiée
-        $rendezvous = RendezVous::where('doctor_id', $doctorId)
-            ->whereDate('date', $date)
-            ->orderBy('date')
-            ->get();
+public function modifier_docteur($id, Request $request) {
 
-        return view('doctor.agenda', compact('rendezvous', 'date'));
+    $doctor = Doctor::find($id);
+    
+    if ($doctor) {
+        $doctor->name = $request->name;
+        $doctor->phone = $request->phone;
+        $doctor->email = $request->email;
+        $doctor->speciality = $request->speciality;
+        $doctor->save();
+
+        return new JsonResponse(['success' => true]);
     }
-         
+
+    return new JsonResponse(['success' => false, "msg" => "Doctor not found"]);
+}         
           
 }

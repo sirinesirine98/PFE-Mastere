@@ -21,11 +21,12 @@ class AppointmentApproved extends Mailable
      * @param string $date
      * @return void
      */
-    public function __construct($name, $date , $doctor)
+
+     public $mailData ;
+    public function __construct($mailData)
     {
-        $this->name = $name;
-        $this->date = $date;
-        $this->doctor = $doctor;
+        $this->mailData = $mailData;
+       
     }
 
 
@@ -36,8 +37,10 @@ class AppointmentApproved extends Mailable
      */
     public function build()
     {
-        return $this->subject('Appointment Approved')
-            ->view('emails.appointment.approved');
+        /*return $this->subject('Appointment Approved')
+            ->view('emails.appointment.approved');*/
+
+        return $this->subject('Test Email! ')->view('appointment.approved');
           
     }
 }

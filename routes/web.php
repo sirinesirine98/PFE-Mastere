@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\NotificationController;
+use App\Models\Patient;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -68,7 +73,7 @@ Route::post('/ajouter_medecin', [AdminController::class, 'ajouter_medecin'])->na
 
 
 Route::get('/supprimer_docteur/{id}', [AdminController::class , 'supprimer_docteur']);
-//Route::get('/modifier_docteur/{id}', [AdminController::class , 'modifier_docteur']);
+
 Route::get('/medecin/{id}', 'AdminController@getMedecin');
 
 
@@ -84,8 +89,32 @@ Route::get('/mydocs',function(){
 
 
 //Route::get('/priserdv', [HomeController::class, 'showAppoinForm'])->name('priserdv');
-//Route::get('notification',[NotificationController::class , 'sendNotification']);
+
+
+
 Route::get('/test-notification', [NotificationController::class, 'sendNotification']);
 
 
 Route::get('/agenda', 'AdminController@agenda')->name('doctor.agenda');
+ Route::get('/sendMail', function () {
+
+   // $roomId = Str::random(4);
+    $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    $roomId = substr(str_shuffle(str_repeat($pool, 5)), 0, 4); 
+    $mail_data = [
+                'recipient' => "sirine.benoune.98@gmail.com",
+                'fromEmail' => "SofiaCareapp@gmail.com",
+                'fromName' => 'SofiaCare',
+                'subject' => 'Verifier Mail',
+                'body' => 'Mail Body',
+                'password' => "request->password",
+                'roomId' => $roomId
+            ];
+
+            Mail::send('emails/appointment/approved', $mail_data, function ($message) use ($mail_data) {
+                $message->to($mail_data['recipient'])
+                    ->from($mail_data['fromEmail'])
+                    ->subject($mail_data['subject']);
+            });
+ });
