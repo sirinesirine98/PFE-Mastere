@@ -135,7 +135,7 @@ public function appointmentApproved(Request $request, $id)
         $data->status = 'Approved';
         $data->save();
 
-      $patient = new Patient;
+        $patient = new Patient;
         $patient->nomdenaissance = $data->name;
         $patient->prenom = $data->name;
         $patient->datedenaissance = $data->date;
@@ -143,6 +143,27 @@ public function appointmentApproved(Request $request, $id)
         $patient->email = $data ->email;
         $patient->telephone = $data->phone;
         $patient->save() ;
+
+
+         $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+         $roomId = substr(str_shuffle(str_repeat($pool, 5)), 0, 4); 
+         $mail_data = [
+                'recipient' => $data->email ,
+                'fromEmail' => "Econsult@gmail.com",
+                'fromName' => 'Econsult',
+                'subject' => 'Verifier Mail',
+                'body' => 'Mail Body',
+                'password' => "request->password",
+                'roomId' => $roomId
+            ];
+
+            Mail::send('emails/appointment/approved', $mail_data, function ($message) use ($mail_data) {
+                $message->to($mail_data['recipient'])
+                    ->from($mail_data['fromEmail'])
+                    ->subject($mail_data['subject']);
+            });
+
 
         return response([
             "success" => true

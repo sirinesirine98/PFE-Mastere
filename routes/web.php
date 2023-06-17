@@ -99,22 +99,5 @@ Route::get('/agenda', 'AdminController@agenda')->name('doctor.agenda');
  Route::get('/sendMail', function () {
 
    // $roomId = Str::random(4);
-    $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-    $roomId = substr(str_shuffle(str_repeat($pool, 5)), 0, 4); 
-    $mail_data = [
-                'recipient' => "sirine.benoune.98@gmail.com",
-                'fromEmail' => "SofiaCareapp@gmail.com",
-                'fromName' => 'SofiaCare',
-                'subject' => 'Verifier Mail',
-                'body' => 'Mail Body',
-                'password' => "request->password",
-                'roomId' => $roomId
-            ];
-
-            Mail::send('emails/appointment/approved', $mail_data, function ($message) use ($mail_data) {
-                $message->to($mail_data['recipient'])
-                    ->from($mail_data['fromEmail'])
-                    ->subject($mail_data['subject']);
-            });
+   
  });

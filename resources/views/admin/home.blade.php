@@ -323,9 +323,6 @@
          
          
          
-         
-         
-         
          // Ajouter un gestionnaire d'événements de clic sur le lien "Lister les médecins"
          const lienListeMedecin = document.getElementById('lien-liste-medecin');
          lienListeMedecin.addEventListener('click', afficherMedecin);
