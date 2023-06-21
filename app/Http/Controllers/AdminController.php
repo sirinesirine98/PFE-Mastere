@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Doctor;
+use App\Models\Room;
 use App\Models\Appointment;
 use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-
+use Illuminate\Support\Facades\Auth ;
 class AdminController extends Controller
 {
     public function addview()
@@ -21,6 +22,8 @@ class AdminController extends Controller
 
     if ($request->hasFile('image')) { // Check if a file was uploaded
         $image = $request->file('image');
+
+
         $imagename = time().'.'.$image->getClientOriginalExtension();
 
         $image->move('doctorimage', $imagename);
@@ -35,7 +38,21 @@ class AdminController extends Controller
     $doctor->save();
     return redirect()->back()->with('message','Docteur ajouter avec succées !');
 }
+/*
+public function supprimer($idMedecin)
+{
+    try {
+        $medecin = Medecin::findOrFail($idMedecin);
+        $medecin->delete();
 
+        // Retourner une réponse JSON indiquant le succès
+        return response()->json(['success' => true]);
+    } catch (\Exception $exception) {
+        // Retourner une réponse JSON indiquant une erreur
+        return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
+    }
+}
+*/
 
 public function liste_rdv()
 {
@@ -59,13 +76,13 @@ public function liste_rdv_patient()
          public function liste_patients()
 {
     $patients = Patient::all();
-    
+
     return response()->json($patients);
 }
 
 
 
-  
+
  public function listePatientsApprouves(): JsonResponse
     {
         $patients = Patient::whereHas('appointments', function ($query) {
@@ -74,13 +91,50 @@ public function liste_rdv_patient()
 
         return response()->json($patients);
     }
-
-  public function listeConsultations()
+public function listeConsultations()
 {
-    $consultations = Consultation::where('status', 'Approved')->get();
+    $consultations = Consultation::where('status', 'Approved')
+        ->join('rooms', 'consultation.room_id', '=', 'rooms.id')
+        ->select(
+            'consultation.id as id_consultation',
+            'consultation.date as date_consultation',
+            'consultation.time as heure_consultation',
+            'rooms.doctor as médecin',
+            'rooms.patient as patient'
+        )
+        ->get();
 
     return response()->json($consultations);
 }
+
+public function listeRendezVous()
+{
+
+    $connected_user_email =  Auth::user()->email;
+   $appointments = Appointment::where('email','=',$connected_user_email)->get();
+
+
+   return $appointments;
+
+
+
+  /*   $rendezvous = Appointment::join('users', 'appointments.user_id', '=', 'users.id')
+        ->join('doctors', 'appointments.doctor', '=', 'doctors.name')
+        ->select('users.name', 'users.email', 'appointments.date', 'doctors.name as doctorName', 'appointments.message', 'appointments.status', 'appointments.etat')
+        ->get();
+
+    return response()->json($rendezvous); */
+}
+
+
+/*
+public function listeRendezVous()
+{
+    $rendezvous = Appointment::with('user', 'appointment' , 'doctor')->get();
+
+    return response()->json($rendezvous);
+}
+*/
 
 
 public function approve($id)
@@ -146,7 +200,7 @@ public function details_docteur($id)
 public function modifier_docteur($id, Request $request) {
 
     $doctor = Doctor::find($id);
-    
+
     if ($doctor) {
         $doctor->name = $request->name;
         $doctor->phone = $request->phone;
@@ -158,6 +212,16 @@ public function modifier_docteur($id, Request $request) {
     }
 
     return new JsonResponse(['success' => false, "msg" => "Doctor not found"]);
-}         
-          
+}
+
+public function fichePatient($id) {
+    $apt = Appointment::find($id);
+    $patient_email = $apt->email;
+    $patient  = Patient::where('email', '=', $patient_email)->first();
+
+
+
+    return $patient;
+}
+
 }

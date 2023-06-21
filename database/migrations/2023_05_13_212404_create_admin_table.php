@@ -19,11 +19,6 @@ public function up()
 
         $table->unsignedBigInteger('room_id');
 
-        $table->foreign('room_id')
-            ->references('id_room')
-            ->on('room')
-            ->onDelete('cascade');
-
         $table->unsignedBigInteger('id_agenda');
 
         $table->unsignedBigInteger('teleconsultation_id');

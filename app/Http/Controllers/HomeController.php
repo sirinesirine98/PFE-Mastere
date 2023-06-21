@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth ;
 use App\Models\User;
 use App\Models\Patient;
 use App\Models\Doctor;
+use App\Models\Room;
 use App\Models\Appointment;
 use App\Models\DemandeurRdv;
 use App\Models\Documents;
@@ -21,13 +22,14 @@ use Symfony\Component\HttpFoundation\Response;
 class HomeController extends Controller
 {
     public function redirect(){
+
         if (Auth::id())
         {
             $doctor = doctor::all();
             if (Auth::user()-> usertype=='patient')
             {
-                
-                return view('patient.home');
+                $user = Auth::user();
+                return view('patient.home', compact('user'));
             }
             else if (Auth::user()-> usertype=='medecin') {
                 return view('medecin.home');
@@ -35,16 +37,16 @@ class HomeController extends Controller
             else {
                 return view('admin.home');
             }
-           
+
         }
-        
+
     }
 
     public function index()
     {
          if (Auth::id())
          { return redirect('home');}
-        else 
+        else
             {
 
         $doctor = doctor::all();
@@ -57,7 +59,7 @@ class HomeController extends Controller
 /*
    public function appointment(Request $request)
 {
-    $data = new Appointment; 
+    $data = new Appointment;
     $data->name=$request->name;
     $data->email=$request->email;
     $data->date=$request->date;
@@ -65,7 +67,7 @@ class HomeController extends Controller
     $data->message=$request->message;
     $data->doctor=$request->doctor;
     $data->status='En cours';
-    if (Auth::id()) { 
+    if (Auth::id()) {
         $data->user_id=Auth::user()->id;
     }
     $data->save();
@@ -126,10 +128,10 @@ public function submitAppointment(Request $request) {
 }
 
 
-public function appointmentApproved(Request $request, $id)
+public function appointmentApproved(Request $request, $id, $doctor)
 {
-    
-    
+
+
    $data = Appointment::find($id);
  if ($data ) {
         $data->status = 'Approved';
@@ -145,18 +147,39 @@ public function appointmentApproved(Request $request, $id)
         $patient->save() ;
 
 
-         $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-         $roomId = substr(str_shuffle(str_repeat($pool, 5)), 0, 4); 
-         $mail_data = [
+         $roomId = substr(str_shuffle(str_repeat($pool, 5)), 0, 4);
+
+
+
+        $room = new Room;
+        $room->room = $roomId;
+        $room->doctor = $doctor;
+        $room->patient = $data->name;
+        $room->save();
+
+ $mail_data = [
                 'recipient' => $data->email ,
                 'fromEmail' => "Econsult@gmail.com",
                 'fromName' => 'Econsult',
                 'subject' => 'Verifier Mail',
                 'body' => 'Mail Body',
                 'password' => "request->password",
-                'roomId' => $roomId
+                'roomId' => $roomId,
+                'name' => $data->name
             ];
+
+            $mail_data_doctor = [
+        'recipient' => $doctor->email,
+        'fromEmail' => "Econsult@gmail.com",
+        'fromName' => 'Econsult',
+        'subject' => 'Appointment Approved',
+        'body' => 'Mail Body',
+        'password' => "request->password",
+        'roomId' => $roomId,
+        'name' => $data->name
+    ];
 
             Mail::send('emails/appointment/approved', $mail_data, function ($message) use ($mail_data) {
                 $message->to($mail_data['recipient'])
@@ -164,12 +187,18 @@ public function appointmentApproved(Request $request, $id)
                     ->subject($mail_data['subject']);
             });
 
+            Mail::send('emails/appointment/approved', $mail_data_doctor, function ($message) use ($mail_data_doctor) {
+        $message->to($mail_data_doctor['recipient'])
+            ->from($mail_data_doctor['fromEmail'])
+            ->subject($mail_data_doctor['subject']);
+    });
+
 
         return response([
             "success" => true
         ], 200);
           //return redirect()->back()->with('message', 'Rendez-vous ajouté avec succès ! Vérifiez votre boîte e-mail :)');
-        
+
 
 }
 }
@@ -182,13 +211,13 @@ public function appointmentApproved(Request $request, $id)
             $appoint=appointment::where('user_id',$userid )->get();
           return view ('user.my_appointment' , compact('appoint'));
        }
-       else 
+       else
        {
          return redirect()->back();
        }
     }
 
-       
+
 
          public function cancel_appointment($id)
          {
@@ -198,7 +227,7 @@ public function appointmentApproved(Request $request, $id)
 
 
          }
-    
+
       /*    public function mes_documents()
         {
             $data = new mes_documents;
@@ -208,7 +237,7 @@ public function appointmentApproved(Request $request, $id)
             $data->diagnostic=$request->diagnostic;
             $data->resultat=$request->resultat;
          if (Auth::id())
-        { 
+        {
         $data->user_id=Auth::user()->id;
         $data->doctor_id=Auth::doctor()->id;
         }
@@ -217,11 +246,7 @@ public function appointmentApproved(Request $request, $id)
 
         }*/
 
-         public function mydocs()
-         {
-            return view ('user.mydocs' );
 
-         }
 
          public function getPatientAppointments($nom)
 {
@@ -237,7 +262,30 @@ public function appointmentApproved(Request $request, $id)
     return response()->json($appointments);
 }
 
-     
+
+ public function reject($idRdv)
+    {
+
+        $appointment = Appointment::findOrFail($idRdv);
+        $appointment->delete();
+
+        // Retourner une réponse JSON indiquant le succès
+        return response()->json(['success' => true]);
+    }
+
+public function supprimer($idDoctor)
+{
+    try {
+        $doctor = Doctor::findOrFail($idDoctor);
+        $doctor->delete();
+
+        // Retourner une réponse JSON indiquant le succès
+        return response()->json(['success' => true]);
+    } catch (\Exception $exception) {
+        // Retourner une réponse JSON indiquant une erreur
+        return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
+    }
+}
 
 }
 

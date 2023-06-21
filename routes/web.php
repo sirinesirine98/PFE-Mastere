@@ -44,7 +44,7 @@ Route::post('/upload_doctor', [AdminController::class , 'upload']);
 
 
 Route::post('/appointment', [HomeController::class , 'submitAppointment']);
-Route::post('/appointment/approve/{id}', [HomeController::class, 'appointmentApproved'])->name('appointment.approve');
+Route::post('/appointment/approve/{id}/{doctor}', [HomeController::class, 'appointmentApproved'])->name('appointment.approve');
 
 Route::get('/myappointment', [HomeController::class , 'myappointment']);
 Route::get('/cancel_appointment/{id}', [HomeController::class , 'cancel_appointment']);
@@ -54,8 +54,13 @@ Route::get('/liste_rdv', [AdminController::class , 'liste_rdv']);
 //Route::post('/appointment/approve/{id}', [AdminController::class , 'approve']);
 Route::delete('/appointment/delete/{id}', [AdminController::class , 'delete']);
 
+Route::post('/appointment/reject/{idRdv}', [HomeController::class, 'reject'])
+    ->name('appointment.reject');
+
 //Route::get('/canceled/{id}', [AdminController::class , 'canceled']);
 
+Route::post('/doctor/supprimer/{idDoctor}', [HomeController::class, 'supprimer'])
+    ->name('doctor.supprimer');
 
 Route::get('/liste_patients', [AdminController::class, 'liste_patients']);
 
@@ -75,6 +80,8 @@ Route::post('/ajouter_medecin', [AdminController::class, 'ajouter_medecin'])->na
 Route::get('/supprimer_docteur/{id}', [AdminController::class , 'supprimer_docteur']);
 
 Route::get('/medecin/{id}', 'AdminController@getMedecin');
+
+Route::post('/medecin/supprimer/{idMedecin}', [AdminController::class, 'supprimer_docteur']);
 
 
 Route::post('/editdoctor/{id}', [AdminController::class , 'editdoctor']);
@@ -96,8 +103,16 @@ Route::get('/test-notification', [NotificationController::class, 'sendNotificati
 
 
 Route::get('/agenda', 'AdminController@agenda')->name('doctor.agenda');
- Route::get('/sendMail', function () {
 
-   // $roomId = Str::random(4);
-   
- });
+
+
+Route::get('/mes_rendezvous', [HomeController::class, 'getRendezvousByEmail']);
+
+
+//Route::get('/listeRendezVous', [AdminController::class, 'listeRendezVous']);
+
+Route::get('/listeRendezVous', [AdminController::class, 'listeRendezVous']);
+
+
+
+ Route::get('/patient/{id}', [AdminController::class, 'fichePatient']);

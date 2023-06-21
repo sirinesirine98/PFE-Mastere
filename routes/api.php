@@ -21,4 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::post('/appointment/approve/{id}', [HomeController::class, 'appointmentApproved'])->name('appointment.approve');
-Route::put('/modifier_docteur/{id}', [AdminController::class , 'modifier_docteur']); 
+Route::put('/modifier_docteur/{id}', [AdminController::class , 'modifier_docteur']);
+Route::get('/patient/{id}', [AdminController::class, 'fichePatient']);
