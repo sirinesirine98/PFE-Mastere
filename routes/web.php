@@ -9,6 +9,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\NotificationController;
 use App\Models\Patient;
+use Dompdf\Dompdf;
+
+
 
 
 /*
@@ -112,7 +115,20 @@ Route::get('/mes_rendezvous', [HomeController::class, 'getRendezvousByEmail']);
 //Route::get('/listeRendezVous', [AdminController::class, 'listeRendezVous']);
 
 Route::get('/listeRendezVous', [AdminController::class, 'listeRendezVous']);
+Route::get('/liste_rdv_medecin', [AdminController::class, 'liste_rdv_medecin']);
 
 
 
  Route::get('/patient/{id}', [AdminController::class, 'fichePatient']);
+Route::get('/files', [AdminController::class, 'fichierspartagees']);
+Route::get('/generate-pdf', function () {
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml('<h1>Mon contenu PDF</h1>');
+    $dompdf->render();
+    $dompdf->stream('mon_fichier.pdf');
+});
+
+
+Route::post('/documents-partages', 'AdminController@storefiles');
+
+Route::get('/notifications', [NotificationController::class, 'index']);

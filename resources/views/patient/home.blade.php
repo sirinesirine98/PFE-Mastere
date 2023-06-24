@@ -13,11 +13,11 @@
     <div class="side-menu">
 
         <div class="brand-name">
-            <h1>Bienvenue </h1>
+            <h1>Votre espace </h1>
         </div>
         <ul>
             <li><a href="#" id="lien-rendezvous">Liste des rendez-vous</a></li>
-            <li><a href="#" id="lien-files">Fichiers paratgées</a></li>
+            <!--<li><a href="#" id="lien-files">Fichiers paratgées</a></li>-->
 
 
         </ul>

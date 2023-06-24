@@ -22,7 +22,7 @@
         <ul>
             <li><a href="#" id="lien-rendezvous">Liste des Rendez-vous</a></li>
             <li><a href="#" id="lien-patients">Liste des Patients</a></li>
-            <li><a href="#" id="lien-consultations">Liste des Consultations</a></li>
+            <!--  <li><a href="#" id="lien-fichiers" onclick="afficherFiles()">Fichiers partagés</a></li>-->
 
         </ul>
 
@@ -62,14 +62,14 @@
         // Récupérer les éléments HTML nécessaires
         const lienRendezVous = document.getElementById('lien-rendezvous');
         const lienPatients = document.getElementById('lien-patients');
-        const lienConsultations = document.getElementById('lien-consultations');
+        const lienFichiers = document.getElementById('lien-fichiers');
         const contenu = document.querySelector('.content');
 
 
         // Ajouter un gestionnaire d'événements de clic sur chaque lien de navigation
         lienRendezVous.addEventListener('click', afficherRendezVous);
         lienPatients.addEventListener('click', afficherPatients);
-        lienConsultations.addEventListener('click', afficherConsultation);
+        lienFichiers.addEventListener('click', afficherFiles);
 
         // Fonction pour afficher le contenu de la section Rendez-vous
         function afficherRendezVous() {
@@ -225,6 +225,50 @@
             }
 
         }
+        //fonctions pour affichers les fichiers envoyers dans le meet
+
+        function afficherFiles() {
+            contenu.innerHTML = `
+        <div class="content">
+            <div class="cards"></div>
+            <div class="content-2">
+                <div class="liste-patients">
+                    <div class="title">
+                        <h2>Fichiers partagés</h2>
+                    </div>
+                    <table id="liste-rooms">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Room</th>
+                                <th>Patient</th>
+                                <th>Fichier</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    `;
+
+            const formData = new FormData();
+            formData.append("pdf", file);
+
+            axios.post("http://localhost:5000/uploadFile", formData)
+                .then(response => {
+                    // Fichier téléchargé avec succès
+                    console.log("Réponse du serveur :", response.data);
+                })
+                .catch(error => {
+                    // Une erreur s'est produite lors de l'envoi du fichier
+                    console.error("Erreur lors de l'envoi du fichier :", error);
+                });
+
+
+        }
+
+
         // Fonction pour afficher le contenu de la section Patients
         function afficherPatients() {
             contenu.innerHTML = `
@@ -338,27 +382,31 @@
   `;
         }
 
-
-
         function showPatientDetails(id) {
-
             fetch('/api/patient/' + id)
                 .then(response => response.json())
                 .then(rendezvous => {
-
-
+                    console.log(rendezvous);
 
                     Swal.fire({
                         title: 'Fiche Patient',
                         html: `<h4>Nom: ${rendezvous.nomdenaissance}</h4>
-                        <h4>Email: ${rendezvous.email}</h4>
-                        <h4>Date du rdv: ${rendezvous.date}</h4>
-                        <h4>Date du rdv: ${rendezvous.date}</h4>
-                        <h4>Date du rdv: ${rendezvous.date}</h4>
-
-                        `
-
-                    })
+               <h4>Email: ${rendezvous.email}</h4>
+               <h4>Date de naissance: ${rendezvous.datedenaissance}</h4>
+               <h4>Téléphone: ${rendezvous.telephone}</h4>
+               <h4>Adresse: ${rendezvous.ville}</h4>`,
+                        input: 'text',
+                        inputPlaceholder: 'Ajouter des notes',
+                        showCancelButton: true,
+                        confirmButtonText: 'Enregistrer',
+                        cancelButtonText: 'Annuler',
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            const notes = result
+                                .value; // Récupération de la valeur saisie dans le champ de saisie libre
+                            // Effectuer ici les actions nécessaires avec les notes saisies
+                        }
+                    });
                 })
         }
     </script>

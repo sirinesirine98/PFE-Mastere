@@ -9,13 +9,18 @@ use Illuminate\Database\Eloquent\Model;
 
     class Notification extends Model
 {
-    
+
 
   public function doctor()
     {
         return $this->belongsTo(Doctor::class);
     }
-    
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
+    }
+
 }
 
 

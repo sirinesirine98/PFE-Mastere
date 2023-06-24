@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <title>E-Consult</title>
 </head>
@@ -27,8 +28,23 @@
             <div class="nav">
                 <div class="search">
                 </div>
+                <div class="notification-icon">
+                    <button id="notification-button" class="notification-button">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count"></span>
+                    </button>
+                </div>
+
+                <div id="notification-modal" class="notification-modal">
+                    <div class="notification-content">
+                        <!-- Contenu des notifications -->
+                    </div>
+                </div>
+
                 <x-app-layout>
                 </x-app-layout>
+
+
             </div>
         </div>
         <div class="content">
@@ -135,6 +151,36 @@
                 </div>
             </div>
             <script>
+                const notificationButton = document.getElementById('notification-button');
+                const notificationModal = document.getElementById('notification-modal');
+                const notificationList = document.getElementById('notification-list');
+                const notificationCount = document.getElementById('notification-count');
+
+
+
+                // Fonction pour afficher les notifications
+                function showNotifications() {
+                    // Réinitialiser la liste des notifications
+                    notificationList.innerHTML = '';
+
+                    // Mettre à jour le compteur de notifications
+                    notificationCount.textContent = notifications.length;
+
+                    // Parcourir les notifications et les ajouter à la liste
+                    notifications.forEach(notification => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = notification.message;
+                        notificationList.appendChild(listItem);
+                    });
+
+                    // Afficher la fenêtre modale
+                    notificationModal.style.display = 'block';
+                }
+
+                // Gérer le clic sur le bouton de notification
+                notificationButton.addEventListener('click', showNotifications);
+
+
                 // Récupérer les éléments HTML nécessaires
                 const medecinsListe = document.querySelector('.medecins-liste');
                 const firstListe = document.querySelector('.first-liste');
@@ -823,6 +869,53 @@
 
                     .modif-form>input {
                         width: 100%;
+                    }
+
+                    .notification-icon {
+                        position: relative;
+                        display: inline-block;
+                    }
+
+                    .notification-button {
+                        border: none;
+                        background: none;
+                        cursor: pointer;
+                    }
+
+                    .notification-button i {
+                        font-size: 24px;
+                    }
+
+                    .notification-count {
+                        position: absolute;
+                        top: -5px;
+                        right: -5px;
+                        background-color: red;
+                        color: white;
+                        border-radius: 50%;
+                        padding: 2px 5px;
+                        font-size: 12px;
+                    }
+
+                    .notification-modal {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba(0, 0, 0, 0.5);
+                        display: none;
+                        z-index: 9999;
+                    }
+
+                    .notification-content {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background-color: white;
+                        padding: 20px;
+                        border-radius: 5px;
                     }
             </style>
 </body>

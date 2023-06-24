@@ -170,16 +170,6 @@ public function appointmentApproved(Request $request, $id, $doctor)
                 'name' => $data->name
             ];
 
-            $mail_data_doctor = [
-        'recipient' => $doctor->email,
-        'fromEmail' => "Econsult@gmail.com",
-        'fromName' => 'Econsult',
-        'subject' => 'Appointment Approved',
-        'body' => 'Mail Body',
-        'password' => "request->password",
-        'roomId' => $roomId,
-        'name' => $data->name
-    ];
 
             Mail::send('emails/appointment/approved', $mail_data, function ($message) use ($mail_data) {
                 $message->to($mail_data['recipient'])
@@ -187,11 +177,6 @@ public function appointmentApproved(Request $request, $id, $doctor)
                     ->subject($mail_data['subject']);
             });
 
-            Mail::send('emails/appointment/approved', $mail_data_doctor, function ($message) use ($mail_data_doctor) {
-        $message->to($mail_data_doctor['recipient'])
-            ->from($mail_data_doctor['fromEmail'])
-            ->subject($mail_data_doctor['subject']);
-    });
 
 
         return response([

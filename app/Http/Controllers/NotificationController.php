@@ -13,12 +13,12 @@ class NotificationController extends Controller
     {
         $user = User::first();
         $offerData = [
-            'name' => "Compixia", 
-            'body' => "Vous êtes inviter a rejoindre une téléconsultation", 
-            'thanks' => "Merci de joindre la réunion !", 
-            'offerText' => "test !!", 
-            'offerUrl' => url('/'), 
-            'offer_id' => rand(1111,9999), 
+            'name' => "Compixia",
+            'body' => "Vous êtes inviter a rejoindre une téléconsultation",
+            'thanks' => "Merci de joindre la réunion !",
+            'offerText' => "test !!",
+            'offerUrl' => url('/'),
+            'offer_id' => rand(1111,9999),
 
         ];
 

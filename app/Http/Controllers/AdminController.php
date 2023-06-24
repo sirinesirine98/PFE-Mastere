@@ -7,8 +7,10 @@ use App\Models\Room;
 use App\Models\Appointment;
 use App\Models\Patient;
 use App\Models\User;
+use App\Models\Fichier;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth ;
+
 class AdminController extends Controller
 {
     public function addview()
@@ -59,6 +61,16 @@ public function liste_rdv()
     $rdvs = Appointment::all();
     return response()->json($rdvs);
 }
+
+public function liste_rdv_medecin()
+{
+    $doctor = Auth::user()->doctor;
+
+    $patients = $doctor->patients;
+
+    return response()->json($patients);
+}
+
 
 public function liste_rdv_patient()
 {
@@ -224,4 +236,39 @@ public function fichePatient($id) {
     return $patient;
 }
 
+public function fichierspartagees($id)
+{
+    $rooms = Room::where('id', $id)->get();
+    return response()->json($rooms);
+}
+
+
+     public function uploadfiles(Request $request)
+    {
+        if ($request->hasFile('pdf')) {
+            $file = $request->file('pdf');
+
+            // Déplacez le fichier vers le dossier de stockage approprié
+            $fileName = $file->getClientOriginalName();
+            $file->move(public_path('uploads'), $fileName);
+
+            // Retournez la réponse avec le chemin du fichier
+            return response()->json(['success' => true, 'message' => 'Fichier téléchargé avec succès.', 'data' => $fileName]);
+        }
+
+        // Le fichier n'a pas été trouvé dans la requête
+        return response()->json(['success' => false, 'message' => 'Aucun fichier trouvé.', 'data' => null]);
+    }
+
+     public function storefiles(Request $request)
+    {
+        $data = $request->validate([
+            'resultat' => 'required',
+            // Ajoutez ici les autres champs que vous souhaitez valider
+        ]);
+
+        $documentPartage = DocumentsPartages::create($data);
+
+        return response()->json(['message' => 'Données enregistrées avec succès.']);
+    }
 }
