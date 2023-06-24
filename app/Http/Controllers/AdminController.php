@@ -62,16 +62,6 @@ public function liste_rdv()
     return response()->json($rdvs);
 }
 
-public function liste_rdv_medecin()
-{
-    $doctor = Auth::user()->doctor;
-
-    $patients = $doctor->patients;
-
-    return response()->json($patients);
-}
-
-
 public function liste_rdv_patient()
 {
     // Récupérer l'ID du patient connecté

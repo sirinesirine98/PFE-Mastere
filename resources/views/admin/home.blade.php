@@ -119,6 +119,7 @@
                                 <th>ID RDV</th>
                                 <th>Nom du patient</th>
                                 <th>Téléphone du patient</th>
+                                <th>Email du patient</th>
                                 <th>Médecin sélectionné</th>
                                 <th>Date de RDV</th>
                                 <th>Symptômes / Description</th>
@@ -218,6 +219,7 @@
                             const headerRow = document.createElement('tr');
                             headerRow.innerHTML = `
                      <th>ID Médecin</th>
+                    <th>Image</th>
                      <th>Nom Médecin</th>
                      <th>Téléphone</th>
                      <th>Email</th>
@@ -231,6 +233,7 @@
                                 const rowMedecin = document.createElement('tr');
                                 rowMedecin.innerHTML = `
                          <td>${medecin.id}</td>
+                         <td><img src="/doctorimage/${medecin.image}" alt="Image du médecin" style="width: 100px; height: 100px;"></td>
                          <td>${medecin.name}</td>
                          <td>${medecin.phone}</td>
                          <td>${medecin.email}</td>
@@ -281,6 +284,10 @@
 
                     <label for="text">Spécialité:</label><br>
                     <input type="text" id="modif-speciality" name="speciality" value="${selectedMed.speciality}"><br>
+
+                     <label for="text">Image:</label><br>
+                    <input type="file" id="modif-image" name="image" value="${selectedMed.image}"><br>
+
 
                     <br>
 
@@ -464,6 +471,7 @@
                <td>${rendezvousItem.id}</td>
                <td>${rendezvousItem.name}</td>
                <td>${rendezvousItem.phone}</td>
+               <td>${rendezvousItem.email}</td>
                <td>${rendezvousItem.doctor}</td>
                <td>${rendezvousItem.date}</td>
                <td>${rendezvousItem.message}</td>

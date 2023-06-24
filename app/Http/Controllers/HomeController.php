@@ -127,13 +127,10 @@ public function submitAppointment(Request $request) {
 
 }
 
-
 public function appointmentApproved(Request $request, $id, $doctor)
 {
-
-
-   $data = Appointment::find($id);
- if ($data ) {
+    $data = Appointment::find($id);
+    if ($data) {
         $data->status = 'Approved';
         $data->save();
 
@@ -142,16 +139,12 @@ public function appointmentApproved(Request $request, $id, $doctor)
         $patient->prenom = $data->name;
         $patient->datedenaissance = $data->date;
         $patient->ville = $data->name;
-        $patient->email = $data ->email;
+        $patient->email = $data->email;
         $patient->telephone = $data->phone;
-        $patient->save() ;
-
+        $patient->save();
 
         $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-         $roomId = substr(str_shuffle(str_repeat($pool, 5)), 0, 4);
-
-
+        $roomId = substr(str_shuffle(str_repeat($pool, 5)), 0, 4);
 
         $room = new Room;
         $room->room = $roomId;
@@ -159,34 +152,37 @@ public function appointmentApproved(Request $request, $id, $doctor)
         $room->patient = $data->name;
         $room->save();
 
- $mail_data = [
-                'recipient' => $data->email ,
-                'fromEmail' => "Econsult@gmail.com",
-                'fromName' => 'Econsult',
-                'subject' => 'Verifier Mail',
-                'body' => 'Mail Body',
-                'password' => "request->password",
-                'roomId' => $roomId,
-                'name' => $data->name
-            ];
+        $mail_data = [
+            'recipient' => $data->email,
+            'fromEmail' => "Econsult@gmail.com",
+            'fromName' => 'Econsult',
+            'subject' => 'Verifier Mail',
+            'body' => 'Mail Body',
+            'password' => $request->password,
+            'roomId' => $roomId,
+            'name' => $data->name
+        ];
 
+        // Send email to patient
+        Mail::send('emails/appointment/approved', $mail_data, function ($message) use ($mail_data) {
+            $message->to($mail_data['recipient'])
+                ->from($mail_data['fromEmail'])
+                ->subject($mail_data['subject']);
+        });
 
-            Mail::send('emails/appointment/approved', $mail_data, function ($message) use ($mail_data) {
-                $message->to($mail_data['recipient'])
-                    ->from($mail_data['fromEmail'])
-                    ->subject($mail_data['subject']);
-            });
-
-
+        // Send email to doctor
+Mail::send('emails/appointment/approved', $mail_data, function ($message) use ($mail_data) {
+            $message->to($mail_data['recipient'])
+        ->from($mail_data['fromEmail'])
+        ->subject($mail_data['subject']);
+});
 
         return response([
             "success" => true
         ], 200);
-          //return redirect()->back()->with('message', 'Rendez-vous ajouté avec succès ! Vérifiez votre boîte e-mail :)');
-
-
+    }
 }
-}
+
 
     public function myappointment()
     {

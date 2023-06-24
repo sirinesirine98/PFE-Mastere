@@ -286,7 +286,6 @@
                 <th>Nom</th>
                 <th>Prénom</th>
                 <th>Date de naissance</th>
-                <th>Ville</th>
                 <th>Email</th>
                 <th>Téléphone</th>
               </tr>
@@ -312,7 +311,6 @@
           <td>${patient.nomdenaissance}</td>
           <td>${patient.prenom}</td>
           <td>${patient.datedenaissance}</td>
-          <td>${patient.ville}</td>
           <td>${patient.email}</td>
           <td>${patient.telephone}</td>
         `;
@@ -392,9 +390,9 @@
                         title: 'Fiche Patient',
                         html: `<h4>Nom: ${rendezvous.nomdenaissance}</h4>
                <h4>Email: ${rendezvous.email}</h4>
-               <h4>Date de naissance: ${rendezvous.datedenaissance}</h4>
+               <h4>Date du RDV: ${rendezvous.datedenaissance}</h4>
                <h4>Téléphone: ${rendezvous.telephone}</h4>
-               <h4>Adresse: ${rendezvous.ville}</h4>`,
+               `,
                         input: 'text',
                         inputPlaceholder: 'Ajouter des notes',
                         showCancelButton: true,
