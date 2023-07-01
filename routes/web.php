@@ -66,8 +66,11 @@ Route::post('/doctor/supprimer/{idDoctor}', [HomeController::class, 'supprimer']
     ->name('doctor.supprimer');
 
 Route::get('/liste_patients', [AdminController::class, 'liste_patients']);
+Route::get('/liste_patients_med', [AdminController::class, 'liste_patients_med']);
 
 Route::get('/details_docteur/{id}', 'AdminController@details_docteur');
+
+Route::get('/get_files', [AdminController::class, 'get_files']);
 
 
 Route::get('/listePatientsApprouves', [AdminController::class, 'listePatientsApprouves']);
@@ -121,6 +124,7 @@ Route::get('/liste_rdv_medecin', [AdminController::class, 'liste_rdv_medecin']);
 
  Route::get('/patient/{id}', [AdminController::class, 'fichePatient']);
 Route::get('/files', [AdminController::class, 'fichierspartagees']);
+
 Route::get('/generate-pdf', function () {
     $dompdf = new Dompdf();
     $dompdf->loadHtml('<h1>Mon contenu PDF</h1>');
@@ -131,4 +135,4 @@ Route::get('/generate-pdf', function () {
 
 Route::post('/documents-partages', 'AdminController@storefiles');
 
-Route::get('/notifications', [NotificationController::class, 'index']);
+Route::get('/notifications', 'NotificationController@index');

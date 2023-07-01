@@ -130,9 +130,14 @@ public function submitAppointment(Request $request) {
 public function appointmentApproved(Request $request, $id, $doctor)
 {
     $data = Appointment::find($id);
+
     if ($data) {
         $data->status = 'Approved';
         $data->save();
+
+        $doctor = doctor::where('name', '=', $data->doctor)->first();
+        $user_doctor = User::where('email', '=', $doctor->email)->first();
+
 
         $patient = new Patient;
         $patient->nomdenaissance = $data->name;
@@ -141,7 +146,9 @@ public function appointmentApproved(Request $request, $id, $doctor)
         $patient->ville = $data->name;
         $patient->email = $data->email;
         $patient->telephone = $data->phone;
+        $patient->doctor_email = $user_doctor->email;
         $patient->save();
+
 
         $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $roomId = substr(str_shuffle(str_repeat($pool, 5)), 0, 4);
@@ -151,6 +158,8 @@ public function appointmentApproved(Request $request, $id, $doctor)
         $room->doctor = $doctor;
         $room->patient = $data->name;
         $room->save();
+
+
 
         $mail_data = [
             'recipient' => $data->email,
@@ -163,6 +172,8 @@ public function appointmentApproved(Request $request, $id, $doctor)
             'name' => $data->name
         ];
 
+
+
         // Send email to patient
         Mail::send('emails/appointment/approved', $mail_data, function ($message) use ($mail_data) {
             $message->to($mail_data['recipient'])
@@ -170,12 +181,33 @@ public function appointmentApproved(Request $request, $id, $doctor)
                 ->subject($mail_data['subject']);
         });
 
-        // Send email to doctor
-Mail::send('emails/appointment/approved', $mail_data, function ($message) use ($mail_data) {
-            $message->to($mail_data['recipient'])
+
+// Récupérer l'adresse e-mail du médecin
+$doctorEmail = $patient->doctor_email;
+
+// Envoyer un e-mail au médecin
+Mail::send('emails/appointment/approved', $mail_data, function ($message) use ($mail_data, $doctorEmail) {
+    $message->to($doctorEmail)
         ->from($mail_data['fromEmail'])
         ->subject($mail_data['subject']);
 });
+
+  /*
+
+    $doctorId = auth()->user()->id;
+    $patients = Patient::where('doctor_id', $doctorId)->get();
+    foreach ($patients as $patient) {
+        // Affichez les informations du patient dans votre interface utilisateur
+        echo $patient->nomdenaissance;
+        echo $patient->prenom;
+    }
+// Send notification to admin
+    $notification = new Notification;
+    $notification->message = 'New appointment request';
+    $notification->save();
+
+  */
+
 
         return response([
             "success" => true

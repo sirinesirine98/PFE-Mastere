@@ -37,9 +37,10 @@
 
                 <div id="notification-modal" class="notification-modal">
                     <div class="notification-content">
-                        <!-- Contenu des notifications -->
+                        <ul id="notification-list"></ul>
                     </div>
                 </div>
+
 
                 <x-app-layout>
                 </x-app-layout>
@@ -154,32 +155,38 @@
             <script>
                 const notificationButton = document.getElementById('notification-button');
                 const notificationModal = document.getElementById('notification-modal');
-                const notificationList = document.getElementById('notification-list');
-                const notificationCount = document.getElementById('notification-count');
+                const notificationList = document.querySelector('.notification-content');
 
+                notificationButton.addEventListener('click', () => {
+                    // Afficher les notifications
+                    notificationModal.style.display = 'block';
 
+                    // Réinitialiser le compteur de notifications
+                    notificationCount = 0;
+                    document.getElementById('notification-count').textContent = notificationCount;
+                });
 
-                // Fonction pour afficher les notifications
-                function showNotifications() {
-                    // Réinitialiser la liste des notifications
-                    notificationList.innerHTML = '';
+                let notificationCount = 0;
 
-                    // Mettre à jour le compteur de notifications
-                    notificationCount.textContent = notifications.length;
+                function showConfirmationAlert(event) {
+                    event.preventDefault();
 
-                    // Parcourir les notifications et les ajouter à la liste
-                    notifications.forEach(notification => {
-                        const listItem = document.createElement('li');
-                        listItem.textContent = notification.message;
-                        notificationList.appendChild(listItem);
+                    Swal.fire({
+                        title: 'Demande de rendez-vous',
+                        text: 'Une nouvelle demande de rendez-vous a été soumise. Voulez-vous l\'approuver ?',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Approuver',
+                        cancelButtonText: 'Ignorer',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            event.target.submit();
+                        }
                     });
 
-                    // Afficher la fenêtre modale
-                    notificationModal.style.display = 'block';
+                    notificationCount++;
+                    document.getElementById('notification-count').textContent = notificationCount;
                 }
-
-                // Gérer le clic sur le bouton de notification
-                notificationButton.addEventListener('click', showNotifications);
 
 
                 // Récupérer les éléments HTML nécessaires
@@ -388,7 +395,7 @@
                      <th>Nom du patient</th>
                      <th>Téléphone du patient</th>
                      <th>Email du patient</th>
-                     <th>Adresse du patient</th>
+                     <th>Email du médecin</th>
                  `;
                             tbodyPatients.appendChild(headerRow);
 
@@ -399,7 +406,7 @@
                          <td>${patient.nomdenaissance}</td>
                          <td>${patient.telephone}</td>
                          <td>${patient.email}</td>
-                         <td>${patient.ville ? patient.ville : '---'}</td>
+                         <td>${patient.doctor_email}</td>
                      `;
                                 tbodyPatients.appendChild(rowPatient);
                             });

@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Models\Fichier;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth ;
-
+use DB;
 class AdminController extends Controller
 {
     public function addview()
@@ -62,13 +62,31 @@ public function liste_rdv()
     return response()->json($rdvs);
 }
 
+ public function liste_rdv_medecin(Request $request)
+    {
+        // Récupérer l'utilisateur connecté (médecin)
+        $medecin = Auth::user();
+
+        // Vérifier si l'utilisateur est bien un médecin
+        if (!$medecin || $medecin->usertype !== 'medecin') {
+            return response()->json(['message' => 'Accès non autorisé'], 403);
+        }
+
+        // Récupérer les rendez-vous du médecin connecté
+        $rendezvous = Appointment::where('doctor', $medecin->name)->get();
+
+        // Retourner les rendez-vous au format JSON
+        return response()->json($rendezvous);
+    }
+
+
 public function liste_rdv_patient()
 {
     // Récupérer l'ID du patient connecté
     $patientId = Auth::user()->id;
 
     // Récupérer les rendez-vous du patient
-    $rendezvous = RendezVous::where('patient_id', $patientId)->get();
+    $rendezvous = Appointment::where('patient_id', $patientId)->get();
 
     return response()->json($rendezvous);
 }
@@ -81,6 +99,18 @@ public function liste_rdv_patient()
 
     return response()->json($patients);
 }
+
+
+         public function liste_patients_med()
+{
+
+    $connected_med_email = Auth::user()->email;
+
+    $patients = Patient::where('doctor_email', '=', $connected_med_email)->get();
+
+    return response()->json($patients);
+}
+
 
 
 
@@ -254,11 +284,16 @@ public function fichierspartagees($id)
     {
         $data = $request->validate([
             'resultat' => 'required',
-            // Ajoutez ici les autres champs que vous souhaitez valider
         ]);
 
         $documentPartage = DocumentsPartages::create($data);
 
         return response()->json(['message' => 'Données enregistrées avec succès.']);
+    }
+
+
+    public function get_files(Request $request){
+        $files = DB::table('fichiers')->get();
+        return $files;
     }
 }

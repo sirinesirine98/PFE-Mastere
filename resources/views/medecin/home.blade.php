@@ -22,7 +22,7 @@
         <ul>
             <li><a href="#" id="lien-rendezvous">Liste des Rendez-vous</a></li>
             <li><a href="#" id="lien-patients">Liste des Patients</a></li>
-            <!--  <li><a href="#" id="lien-fichiers" onclick="afficherFiles()">Fichiers partagés</a></li>-->
+            <li><a href="#" id="lien-fichiers" onclick="afficherFiles()">Fichiers partagés</a></li>
 
         </ul>
 
@@ -103,33 +103,32 @@
 
             const listeRendezvous = document.querySelector('#liste-rendezvous tbody');
 
-            // Effectuer une requête Fetch vers l'API pour récupérer les rendez-vous
-            fetch('/liste_rdv')
+            fetch('/liste_rdv_medecin')
                 .then(response => response.json())
-                .then(rendezvous => {
-                    console.log(rendezvous)
-                    const rendezvousApprouves = rendezvous.filter(rendezvousItem => rendezvousItem.status ===
-                        'Approved');
+                .then(appointments => {
+                    console.log(appointments);
+                    const appointmentsApprouves = appointments.filter(appointment => appointment.status === 'Approved');
 
                     // Afficher les rendez-vous dans la liste
-                    rendezvousApprouves.forEach(rendezvousItem => {
+                    appointmentsApprouves.forEach(appointment => {
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
-        <td onclick="showPatientDetails(${rendezvousItem.id})">${rendezvousItem.id}</td>
-          <td onclick="showPatientDetails(${rendezvousItem.id})">${rendezvousItem.name}</td>
-          <td onclick="showPatientDetails(${rendezvousItem.id})">${rendezvousItem.email}</td>
-          <td onclick="showPatientDetails(${rendezvousItem.id})">${rendezvousItem.date}</td>
-          <td onclick="showPatientDetails(${rendezvousItem.id})">${rendezvousItem.doctor}</td>
-          <td onclick="showPatientDetails(${rendezvousItem.id})">${rendezvousItem.message}</td>
-          <td onclick="showPatientDetails(${rendezvousItem.id})">${rendezvousItem.status}</td>
-          <td onclick="showPatientDetails(${rendezvousItem.id})">${rendezvousItem.etat}</td>
-        `;
+                <td onclick="showPatientDetails(${appointment.id})">${appointment.id}</td>
+                <td onclick="showPatientDetails(${appointment.id})">${appointment.name}</td>
+                <td onclick="showPatientDetails(${appointment.id})">${appointment.email}</td>
+                <td onclick="showPatientDetails(${appointment.id})">${appointment.date}</td>
+                <td onclick="showPatientDetails(${appointment.id})">${appointment.doctor}</td>
+                <td onclick="showPatientDetails(${appointment.id})">${appointment.message}</td>
+                <td onclick="showPatientDetails(${appointment.id})">${appointment.status}</td>
+                <td onclick="showPatientDetails(${appointment.id})">${appointment.etat}</td>
+            `;
                         listeRendezvous.appendChild(tr);
                     });
                 })
                 .catch(error => {
                     console.error('Erreur lors de la récupération des rendez-vous:', error);
                 });
+
 
 
 
@@ -225,7 +224,6 @@
             }
 
         }
-        //fonctions pour affichers les fichiers envoyers dans le meet
 
         function afficherFiles() {
             contenu.innerHTML = `
@@ -241,9 +239,9 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Room</th>
-                                <th>Patient</th>
+                                <th>Date</th>
                                 <th>Fichier</th>
-                            </tr>
+                           </tr>
                         </thead>
                         <tbody></tbody>
                     </table>
@@ -252,21 +250,29 @@
         </div>
     `;
 
-            const formData = new FormData();
-            formData.append("pdf", file);
-
-            axios.post("http://localhost:5000/uploadFile", formData)
-                .then(response => {
-                    // Fichier téléchargé avec succès
-                    console.log("Réponse du serveur :", response.data);
+            fetch('/get_files')
+                .then(response => response.json())
+                .then(files => {
+                    const tbody = document.querySelector('#liste-rooms tbody');
+                    tbody.innerHTML = '';
+                    console.log(files);
+                    files.forEach(file => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                    <td>${file.id}</td>
+                    <td>${file.room}</td>
+                    <td>${file.date}</td>
+                    <td>${file.fichier}</td>
+                `;
+                        tbody.appendChild(row);
+                    });
                 })
                 .catch(error => {
-                    // Une erreur s'est produite lors de l'envoi du fichier
-                    console.error("Erreur lors de l'envoi du fichier :", error);
+                    console.error('Une erreur s\'est produite lors de la récupération des fichiers :', error);
                 });
-
-
         }
+
+
 
 
         // Fonction pour afficher le contenu de la section Patients
@@ -300,7 +306,7 @@
             const listePatients = document.querySelector('#liste-patients tbody');
 
             // Effectuer une requête Fetch vers l'API pour récupérer les patients
-            fetch('/liste_patients')
+            fetch('/liste_patients_med')
                 .then(response => response.json())
                 .then(patients => {
                     // Afficher les patients dans la liste
